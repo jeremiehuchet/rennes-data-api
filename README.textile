@@ -1,0 +1,31 @@
+h1. Keolis Java API
+
+This library provides a client to access Rennes Métropole "transportation data API (v2)":http://data.keolis-rennes.com/fr/les-donnees/donnees-et-api.html provided by Keolis. 
+
+* keolis-java-api is a pure Java implementation and relies on @org.json:json-20070829@ and @org.apache.httpcomponents:httpclient-4.0.2@
+* keolis-android-api uses the same source code but depends on @com.google.android:android-2.3.3@
+
+Please report bugs on "Github tracker":https://github.com/kops/keolis-java-api/issues/new or "contact us":http://www.google.com/recaptcha/mailhide/d?k=01Th60_7w3rxWuSJumsnqxfg==&c=REgbsYXndhO58POROxZGybu0F_Xu3JmR-wBRNbh8knE.
+
+h1. Features
+
+API version 2 only is supported. 
+
+Fully implemented methods: 
+
+* getbikestations
+* getmetrostations
+
+Not yet implemented, but planned:
+* getbikestations
+* getbikedistricts
+* getlinesalerts
+* getlines
+* getequipments
+* getequipmentsstatus
+* getmetrostations
+* getmetrostationsstatus
+* getrelayparks
+* getpos
+* getcities
+* getcitydistricts
