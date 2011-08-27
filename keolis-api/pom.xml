@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <groupId>fr.dudie</groupId>
         <artifactId>dudie-parent</artifactId>
         <version>0.1.0-SNAPSHOT</version>
-        <relativePath>../dudie-parent</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
