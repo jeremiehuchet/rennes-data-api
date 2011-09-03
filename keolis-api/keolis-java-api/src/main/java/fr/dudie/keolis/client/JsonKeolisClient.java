@@ -7,14 +7,15 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.dudie.keolis.model.BikeStation;
+import fr.dudie.keolis.model.LineAlert;
 import fr.dudie.keolis.model.LineIcon;
+import fr.dudie.keolis.model.RelayPark;
 import fr.dudie.keolis.model.SubwayStation;
 
 /**
@@ -51,6 +52,12 @@ public class JsonKeolisClient implements KeolisClient {
     /** The handler to receive line icons. */
     private final LineIconsHttpResponseHandler defaultLineIconHandler = new LineIconsHttpResponseHandler();
 
+    /** The handler to receive relay parks. */
+    private final RelayParkHttpResponseHandler defaultRelayParkHandler = new RelayParkHttpResponseHandler();
+
+    /** The handler to receive lines alerts. */
+    private final LineAlertHttpResponseHandler defaultLineAlertHandler = new LineAlertHttpResponseHandler();
+
     /**
      * Creates a Keolis API client.
      * 
@@ -74,20 +81,26 @@ public class JsonKeolisClient implements KeolisClient {
      * 
      * @param parameters
      *            the request parameters
-     * @return an {@link HttpPost} to send to execute the request
+     * @return an {@link HttpGet} to send to execute the request
      * @throws UnsupportedEncodingException
      *             unable to encode request parameters
      */
-    private HttpPost createKeolisRequest(final List<NameValuePair> parameters)
+    private HttpGet createKeolisRequest(final List<NameValuePair> parameters)
             throws UnsupportedEncodingException {
 
-        final HttpPost req = new HttpPost(keolisApiUrl);
-        req.addHeader(H_ACCEPT, "text/json");
-        req.addHeader(H_ACCEPT, "application/json");
         parameters.add(new BasicNameValuePair(Keo.API_VERSION, API_VERSION));
         parameters.add(new BasicNameValuePair(Keo.API_KEY, keolisApiKey));
 
-        req.setEntity(new UrlEncodedFormEntity(parameters));
+        final StringBuilder requestUrl = new StringBuilder(keolisApiUrl);
+        requestUrl.append('?');
+        for (final NameValuePair param : parameters) {
+            requestUrl.append('&').append(param.getName());
+            requestUrl.append('=').append(param.getValue());
+        }
+
+        final HttpGet req = new HttpGet(requestUrl.toString());
+        req.addHeader(H_ACCEPT, "text/json");
+        req.addHeader(H_ACCEPT, "application/json");
 
         if (LOGGER.isDebugEnabled()) {
             final StringBuilder msg = new StringBuilder();
@@ -257,6 +270,91 @@ public class JsonKeolisClient implements KeolisClient {
 
         final List<LineIcon> data = httpClient.execute(createKeolisRequest(params),
                 defaultLineIconHandler);
+
+        return data;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see fr.dudie.keolis.client.KeolisClient#getAllRelayParks()
+     */
+    @Override
+    public List<RelayPark> getAllRelayParks() throws IOException {
+
+        final List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair(Keo.Network.PARAM_NAME, Keo.Network.VALUE_STAR));
+        params.add(new BasicNameValuePair(Keo.Command.PARAM_NAME, Keo.Command.GET_RELAY_PARKS));
+
+        final List<RelayPark> data = httpClient.execute(createKeolisRequest(params),
+                defaultRelayParkHandler);
+
+        return data;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see fr.dudie.keolis.client.KeolisClient#getRelayParksNearFrom(int, int)
+     */
+    @Override
+    public List<RelayPark> getRelayParksNearFrom(final int latitude, final int longitude)
+            throws IOException {
+
+        final List<NameValuePair> params = new ArrayList<NameValuePair>(6);
+        params.add(new BasicNameValuePair(Keo.Network.PARAM_NAME, Keo.Network.VALUE_STAR));
+        params.add(new BasicNameValuePair(Keo.Command.PARAM_NAME, Keo.Command.GET_RELAY_PARKS));
+
+        params.add(new BasicNameValuePair(Keo.GetRelayParks.PARAM_LATITUDE, String
+                .valueOf(latitude)));
+        params.add(new BasicNameValuePair(Keo.GetRelayParks.PARAM_LONGITUDE, String
+                .valueOf(longitude)));
+
+        final List<RelayPark> data = httpClient.execute(createKeolisRequest(params),
+                defaultRelayParkHandler);
+
+        return data;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see fr.dudie.keolis.client.KeolisClient#getAllLinesAlerts()
+     */
+    @Override
+    public List<LineAlert> getAllLinesAlerts() throws IOException {
+
+        final List<NameValuePair> params = new ArrayList<NameValuePair>(5);
+        params.add(new BasicNameValuePair(Keo.Network.PARAM_NAME, Keo.Network.VALUE_STAR));
+        params.add(new BasicNameValuePair(Keo.Command.PARAM_NAME, Keo.Command.GET_LINES_ALERTS));
+
+        params.add(new BasicNameValuePair(Keo.GetLinesAlerts.PARAM_MODE,
+                Keo.GetLinesAlerts.VALUE_MODE_ALL));
+
+        final List<LineAlert> data = httpClient.execute(createKeolisRequest(params),
+                defaultLineAlertHandler);
+
+        return data;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see fr.dudie.keolis.client.KeolisClient#getLinesAlertsForLine(java.lang.String)
+     */
+    @Override
+    public List<LineAlert> getLinesAlertsForLine(final String line) throws IOException {
+
+        final List<NameValuePair> params = new ArrayList<NameValuePair>(6);
+        params.add(new BasicNameValuePair(Keo.Network.PARAM_NAME, Keo.Network.VALUE_STAR));
+        params.add(new BasicNameValuePair(Keo.Command.PARAM_NAME, Keo.Command.GET_LINES_ALERTS));
+
+        params.add(new BasicNameValuePair(Keo.GetLinesAlerts.PARAM_MODE,
+                Keo.GetLinesAlerts.VALUE_MODE_LINE));
+        params.add(new BasicNameValuePair(Keo.GetLinesAlerts.PARAM_LINE, line));
+
+        final List<LineAlert> data = httpClient.execute(createKeolisRequest(params),
+                defaultLineAlertHandler);
 
         return data;
     }

@@ -8,6 +8,7 @@ import java.util.Properties;
 import junit.framework.TestCase;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.http.client.HttpClient;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.PlainSocketFactory;
@@ -20,14 +21,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.dudie.keolis.model.BikeStation;
+import fr.dudie.keolis.model.LineAlert;
 import fr.dudie.keolis.model.LineIcon;
+import fr.dudie.keolis.model.RelayPark;
 
 /**
  * Test class for {@link JsonKeolisClient}.
  * 
  * @author Jérémie Huchet
  */
-public class JsonKeolisClientTest extends TestCase {
+public final class JsonKeolisClientTest extends TestCase {
 
     /** The event logger. */
     private static final Logger LOGGER = LoggerFactory.getLogger(JsonKeolisClientTest.class);
@@ -76,7 +79,7 @@ public class JsonKeolisClientTest extends TestCase {
      *             an error occurred
      */
     @Test
-    public final void testGetBikeStations() throws IOException {
+    public void testGetBikeStations() throws IOException {
 
         LOGGER.info("testGetBikeStations.start");
 
@@ -111,7 +114,7 @@ public class JsonKeolisClientTest extends TestCase {
      *             an error occurred
      */
     @Test
-    public final void testGetLineIcons() throws IOException {
+    public void testGetLineIcons() throws IOException {
 
         LOGGER.info("testGetLineIcons.start");
 
@@ -121,7 +124,8 @@ public class JsonKeolisClientTest extends TestCase {
 
         assertNotNull("no line icons returned by the api", icons);
         assertTrue("at least one line icon should be returned by the api", icons.size() > 0);
-        assertEquals("on June, 29th 2010, the keolis API returns 70 line icons", 70, icons.size());
+        assertEquals("on September, 3rd 2011, the keolis API returns 130 line icons", 130,
+                icons.size());
 
         for (final LineIcon icon : icons) {
             LOGGER.debug("checking {}", icon);
@@ -132,5 +136,131 @@ public class JsonKeolisClientTest extends TestCase {
         }
 
         LOGGER.info("testGetLineIcons.end");
+    }
+
+    /**
+     * Test method for {@link JsonKeolisClient#getAllRelayParks()}.
+     * 
+     * @throws IOException
+     *             an error occurred
+     */
+    @Test
+    public void testGetAllRelayParks() throws IOException {
+
+        LOGGER.info("testGetAllRelayParks.start");
+
+        List<RelayPark> parks = null;
+
+        parks = keolisClient.getAllRelayParks();
+
+        assertNotNull("no relay parks returned by the api", parks);
+        assertTrue("at least one park should be returned by the api", parks.size() > 0);
+        assertEquals("on September, 3rd 2011, the keolis API returns 4 relay parks", 4,
+                parks.size());
+
+        for (final RelayPark park : parks) {
+            LOGGER.debug("{}", ToStringBuilder.reflectionToString(park));
+        }
+
+        LOGGER.info("testGetAllRelayParks.end");
+    }
+
+    /**
+     * Test method for {@link JsonKeolisClient#getRelayParksNearFrom(int, int)}.
+     * 
+     * @throws IOException
+     *             an error occurred
+     */
+    @Test
+    public void testRelayParksNearFrom() throws IOException {
+
+        LOGGER.info("testRelayParksNearFrom.start");
+
+        List<RelayPark> parks = null;
+
+        parks = keolisClient.getRelayParksNearFrom(1600000, 1600000);
+
+        assertNotNull("no relay parks returned by the api", parks);
+        assertTrue("at least one park should be returned by the api", parks.size() > 0);
+        assertEquals("on September, 3rd 2011, the keolis API returns 4 relay parks", 4,
+                parks.size());
+
+        for (final RelayPark park : parks) {
+            LOGGER.debug("{}", ToStringBuilder.reflectionToString(park));
+        }
+
+        LOGGER.info("testRelayParksNearFrom.end");
+    }
+
+    /**
+     * Test method for {@link JsonKeolisClient#getAllLinesAlerts()}.
+     * 
+     * @throws IOException
+     *             an error occurred
+     */
+    @Test
+    public void testGetAllLineAlerts() throws IOException {
+
+        LOGGER.info("testGetAllLineAlerts.start");
+
+        List<LineAlert> alerts = null;
+
+        alerts = keolisClient.getAllLinesAlerts();
+
+        assertNotNull("no alert returned by the api", alerts);
+        assertTrue("at least one alert should be returned by the api", alerts.size() > 0);
+
+        for (final LineAlert alert : alerts) {
+            LOGGER.debug("{}", ToStringBuilder.reflectionToString(alert));
+        }
+
+        LOGGER.info("testGetAllLineAlerts.end");
+    }
+
+    /**
+     * Test method for {@link JsonKeolisClient#getLinesAlertsForLine(String)} giving a line having
+     * an alert.
+     * 
+     * @throws IOException
+     *             an error occurred
+     */
+    @Test
+    public void testGetLinesAlertsForLineWithAlert() throws IOException {
+
+        LOGGER.info("testGetLinesAlertsForLineWithAlert.start");
+
+        List<LineAlert> alerts = null;
+
+        alerts = keolisClient.getLinesAlertsForLine("59");
+
+        assertNotNull("an alert should be returned for line 59", alerts);
+        assertTrue("at least one alert should be returned by the api", alerts.size() > 0);
+
+        for (final LineAlert alert : alerts) {
+            LOGGER.debug("{}", ToStringBuilder.reflectionToString(alert));
+        }
+
+        LOGGER.info("testGetLinesAlertsForLineWithAlert.start");
+    }
+
+    /**
+     * Test method for {@link JsonKeolisClient#getLinesAlertsForLine(String)} giving an unexisting
+     * line.
+     * 
+     * @throws IOException
+     *             an error occurred
+     */
+    @Test
+    public void testGetLinesAlertsForUnexistingLine() throws IOException {
+
+        LOGGER.info("testGetLinesAlertsForUnexistingLine.start");
+
+        List<LineAlert> alerts = null;
+
+        alerts = keolisClient.getLinesAlertsForLine("unexistingLine");
+
+        assertNull("no alert should be returned for line 'unexistingLine'", alerts);
+
+        LOGGER.info("testGetLinesAlertsForUnexistingLine.start");
     }
 }

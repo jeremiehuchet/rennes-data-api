@@ -268,4 +268,23 @@ public final class Keo {
         /** Fetch alerts about any line. */
         public static final String VALUE_MODE_ALL = "all";
     }
+
+    /**
+     * Contains constants for method {@link Command#GET_LINES_ICONS}.
+     * 
+     * @author Jérémie Huchet
+     */
+    public static final class GetRelayParks {
+
+        /** Avoid instantiation. */
+        private GetRelayParks() {
+
+        }
+
+        /** The latitude parameter name. */
+        public static final String PARAM_LATITUDE = "param[latitude]";
+
+        /** The longitude parameter name. */
+        public static final String PARAM_LONGITUDE = "param[longitude]";
+    }
 }

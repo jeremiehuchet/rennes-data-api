@@ -56,7 +56,7 @@ public final class KeoUtils {
                     attributes.getString("message"));
             throw new JSONException(message);
         }
-        return answer.getJSONObject("data");
+        return answer.optJSONObject("data");
     }
 
     /**

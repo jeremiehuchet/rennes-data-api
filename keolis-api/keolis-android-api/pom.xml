@@ -22,12 +22,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>fr.dudie</groupId>
     <artifactId>keolis-android-api</artifactId>
     <packaging>jar</packaging>
 
     <name>Keolis Android API client</name>
-    <description>POM facility to user keolis-android-api in an Android project</description>
+    <description>POM facility to use keolis-android-api in an Android project</description>
+
+    <url>http://github.com/kops/keolis-api/keolis-android-api</url>
 
     <build>
         <sourceDirectory>../keolis-java-api/src/main/java</sourceDirectory>

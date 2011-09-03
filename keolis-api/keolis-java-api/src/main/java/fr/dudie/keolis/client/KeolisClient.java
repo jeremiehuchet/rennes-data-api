@@ -7,7 +7,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import fr.dudie.keolis.model.BikeStation;
+import fr.dudie.keolis.model.LineAlert;
 import fr.dudie.keolis.model.LineIcon;
+import fr.dudie.keolis.model.RelayPark;
 import fr.dudie.keolis.model.SubwayStation;
 
 /**
@@ -92,4 +94,46 @@ public interface KeolisClient {
      *             unable to get a result from the server
      */
     List<LineIcon> getAllLineIcons() throws IOException;
+
+    /**
+     * Makes a call to the Keolis API to get the list of all relay parks.
+     * 
+     * @return the list of relay parks
+     * @throws IOException
+     *             unable to get a result from the server
+     */
+    List<RelayPark> getAllRelayParks() throws IOException;
+
+    /**
+     * Makes a call to the Keolis API to get the 3 first nearest relay parks.
+     * 
+     * @param latitude
+     *            the latitude
+     * @param longitude
+     *            the longitude
+     * @return a list containing the 3 relay parks
+     * @throws IOException
+     *             unable to get a result from the server
+     */
+    List<RelayPark> getRelayParksNearFrom(int latitude, int longitude) throws IOException;
+
+    /**
+     * Makes a call to get all lines alerts.
+     * 
+     * @return the all lines alerts
+     * @throws IOException
+     *             unable to get a result from the server
+     */
+    List<LineAlert> getAllLinesAlerts() throws IOException;
+
+    /**
+     * Makes a call to get all alerts related to the given line name.
+     * 
+     * @param line
+     *            the line name
+     * @return the lines alerts related to the given line
+     * @throws IOException
+     * @return the all lines alerts
+     */
+    List<LineAlert> getLinesAlertsForLine(String line) throws IOException;
 }
