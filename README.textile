@@ -15,17 +15,21 @@ Fully implemented methods:
 
 * getbikestations
 * getmetrostations
+* getlinesalerts
+* getrelayparks
 
-Not yet implemented, but planned:
+h1. Planned features
+
+* Ability to cancel in-progress requests
+
+The following methods should be implemented, feel free to report an issue if you're waiting for. 
 * getbikestations
 * getbikedistricts
-* getlinesalerts
 * getlines
 * getequipments
 * getequipmentsstatus
 * getmetrostations
 * getmetrostationsstatus
-* getrelayparks
 * getpos
 * getcities
 * getcitydistricts
