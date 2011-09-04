@@ -16,7 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses />.
     <parent>
         <groupId>fr.dudie</groupId>
         <artifactId>keolis-api</artifactId>
-        <version>0.1.0</version>
+        <version>0.1.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
