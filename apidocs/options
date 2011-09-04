@@ -1,0 +1,24 @@
+-classpath
+'/home/kops/git/keolis-rennes-api/target/classes:/home/kops/.m2/repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar:/home/kops/.m2/repository/org/apache/httpcomponents/httpclient/4.0.2/httpclient-4.0.2.jar:/home/kops/.m2/repository/org/json/json/20070829/json-20070829.jar:/home/kops/.m2/repository/org/apache/httpcomponents/httpcore/4.0.1/httpcore-4.0.1.jar:/home/kops/.m2/repository/org/slf4j/slf4j-api/1.6.1/slf4j-api-1.6.1.jar:/home/kops/.m2/repository/commons-codec/commons-codec/1.3/commons-codec-1.3.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/home/kops/git/keolis-rennes-api/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2011. All Rights Reserved.'
+-charset
+'UTF-8'
+-d
+'/home/kops/git/keolis-rennes-api/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'Keolis Rennes Java API client 0.1.0-SNAPSHOT API'
+-linkoffline
+'http://download.oracle.com/javase/6/docs/api' '/home/kops/git/keolis-rennes-api/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'Keolis Rennes Java API client 0.1.0-SNAPSHOT API'
