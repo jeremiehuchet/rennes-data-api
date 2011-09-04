@@ -37,13 +37,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </license>
     </licenses>
     <scm>
-        <url>git@github.com:kops/keolis-java-api.git/keolis-api</url>
-        <connection>scm:git:git@github.com:kops/keolis-java-api.git/keolis-api</connection>
-        <developerConnection>scm:git:git@github.com:kops/keolis-java-api.git/keolis-api</developerConnection>
+        <url>git@github.com:kops/keolis-api.git</url>
+        <connection>scm:git:git@github.com:kops/keolis-api.git</connection>
+        <developerConnection>scm:git:git@github.com:kops/keolis-api.git</developerConnection>
     </scm>
     <issueManagement>
         <system>Github tracker</system>
-        <url>https://github.com/kops/keolis-java-api/issues</url>
+        <url>https://github.com/kops/keolis-api/issues</url>
     </issueManagement>
 
     <modules>
