@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses />.
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>keolis-rennes-api</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Keolis Rennes Java API client</name>
