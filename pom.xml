@@ -12,7 +12,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses />.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>fr.dudie</groupId>
         <artifactId>dudie-parent</artifactId>
@@ -20,14 +21,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses />.
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>keolis-api</artifactId>
-    <version>0.1.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <artifactId>keolis-rennes-api</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
-    <name>Keolis API client parent</name>
-    <description>Parent POM for Keolis API Java and Android modules</description>
+    <name>Keolis Rennes Java API client</name>
+    <description>A simple client library for the Keolis Rennes API written in Java</description>
 
-    <url>https://github.com/kops/keolis-api</url>
+    <url>https://github.com/kops/keolis-rennes-api</url>
     <licenses>
         <license>
             <name>GNU General Public License, Version 3</name>
@@ -36,28 +37,36 @@ along with this program.  If not, see <http://www.gnu.org/licenses />.
         </license>
     </licenses>
     <scm>
-        <url>git@github.com:kops/keolis-api.git</url>
-        <connection>scm:git:git@github.com:kops/keolis-api.git</connection>
-        <developerConnection>scm:git:git@github.com:kops/keolis-api.git</developerConnection>
+        <url>git@github.com:kops/keolis-rennes-api.git</url>
+        <connection>scm:git:git@github.com:kops/keolis-rennes-api.git</connection>
+        <developerConnection>scm:git:git@github.com:kops/keolis-rennes-api.git</developerConnection>
     </scm>
     <issueManagement>
         <system>Github tracker</system>
-        <url>https://github.com/kops/keolis-api/issues</url>
+        <url>https://github.com/kops/keolis-rennes-api/issues</url>
     </issueManagement>
 
-    <modules>
-        <module>keolis-java-api</module>
-        <module>keolis-android-api</module>
-    </modules>
-
     <properties>
-		<!-- compile time deps versions -->
+        <!-- compile time deps versions -->
         <slf4j.version>1.6.1</slf4j.version>
 
-		<!-- test deps versions -->
+        <!-- test deps versions -->
         <junit.version>4.8.2</junit.version>
         <commons-lang.version>2.6</commons-lang.version>
     </properties>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>${basedir}</directory>
+                <includes>
+                    <include>LICENSE</include>
+                    <include>NOTICE</include>
+                    <include>README</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
 
     <dependencies>
         <dependency>
@@ -89,4 +98,55 @@ along with this program.  If not, see <http://www.gnu.org/licenses />.
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>target-java</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>keolis-rennes-api-target</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <properties>
+                <httpcomponents.version>4.0.2</httpcomponents.version>
+                <org-json.version>20070829</org-json.version>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.apache.httpcomponents</groupId>
+                    <artifactId>httpclient</artifactId>
+                    <version>${httpcomponents.version}</version>
+                    <type>jar</type>
+                    <scope>compile</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.json</groupId>
+                    <artifactId>json</artifactId>
+                    <version>${org-json.version}</version>
+                    <type>jar</type>
+                    <scope>compile</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>target-android</id>
+            <activation>
+                <property>
+                    <name>keolis-rennes-api-target</name>
+                    <value>android</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>com.google.android</groupId>
+                    <artifactId>android</artifactId>
+                    <version>2.3.3</version>
+                    <type>jar</type>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 </project>
