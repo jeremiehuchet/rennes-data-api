@@ -17,17 +17,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <parent>
         <groupId>fr.dudie</groupId>
         <artifactId>dudie-parent</artifactId>
-        <version>0.1.0-SNAPSHOT</version>
+        <version>1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>keolis-api</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Keolis API client parent</name>
     <description>Parent POM for Keolis API Java and Android modules</description>
 
-    <url>http://github.com/kops/keolis-api</url>
+    <url>https://github.com/kops/keolis-api</url>
     <licenses>
         <license>
             <name>GNU General Public License, Version 3</name>
@@ -36,23 +37,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </license>
     </licenses>
     <scm>
-        <url>http://github.com/kops/keolis-java-api/keolis-api</url>
-        <connection>scm:git:ssh://github.com/kops/keolis-java-api/keolis-api</connection>
-        <developerConnection>scm:git:ssh://github.com/kops/keolis-java-api/keolis-api</developerConnection>
+        <url>git@github.com:kops/keolis-java-api.git/keolis-api</url>
+        <connection>scm:git:git@github.com:kops/keolis-java-api.git/keolis-api</connection>
+        <developerConnection>scm:git:git@github.com:kops/keolis-java-api.git/keolis-api</developerConnection>
     </scm>
     <issueManagement>
         <system>Github tracker</system>
         <url>https://github.com/kops/keolis-java-api/issues</url>
     </issueManagement>
-    <developers>
-        <developer>
-            <id>JHU</id>
-            <name>kops</name>
-            <properties>
-                <contact>http://www.google.com/recaptcha/mailhide/d?k=01ZGpzgTpH16GtSj8NB93DsQ==&amp;c=WrY-DpDtsC0sd8emmUY07rAJ5IhIoRWnxieganlteL0=</contact>
-            </properties>
-        </developer>
-    </developers>
 
     <modules>
         <module>keolis-java-api</module>

@@ -27,20 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <name>Keolis Java API client</name>
     <description>A simple client library for the Keolis API written in Java</description>
-
-    <developers>
-        <developer>
-            <id>JHU</id>
-            <name>kops</name>
-            <properties>
-                <contact>http://www.google.com/recaptcha/mailhide/d?k=01ZGpzgTpH16GtSj8NB93DsQ==&amp;c=WrY-DpDtsC0sd8emmUY07rAJ5IhIoRWnxieganlteL0=</contact>
-            </properties>
-        </developer>
-        <developer>
-            <id>OBO</id>
-            <name>orgoz</name>
-        </developer>
-    </developers>
     
     <properties>
         <httpcomponents.version>4.0.2</httpcomponents.version>
