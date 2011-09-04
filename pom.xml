@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses />.
     <name>Keolis Rennes Java API client</name>
     <description>A simple client library for the Keolis Rennes API written in Java</description>
 
-    <url>https://github.com/kops/keolis-rennes-api</url>
+    <url>http://kops.github.com/keolis-rennes-api</url>
     <licenses>
         <license>
             <name>GNU General Public License, Version 3</name>
@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses />.
         </license>
     </licenses>
     <scm>
-        <url>git@github.com:kops/keolis-rennes-api.git</url>
+        <url>https://github.com/kops/keolis-rennes-api/tree/master</url>
         <connection>scm:git:git@github.com:kops/keolis-rennes-api.git</connection>
         <developerConnection>scm:git:git@github.com:kops/keolis-rennes-api.git</developerConnection>
     </scm>
@@ -113,7 +113,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses />.
             <activation>
                 <activeByDefault>true</activeByDefault>
                 <property>
-                    <name>keolis-rennes-api-target</name>
+                    <name>keolis-rennes-api.target</name>
                     <value>java</value>
                 </property>
             </activation>
@@ -142,7 +142,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses />.
             <id>target-android</id>
             <activation>
                 <property>
-                    <name>keolis-rennes-api-target</name>
+                    <name>keolis-rennes-api.target</name>
                     <value>android</value>
                 </property>
             </activation>
