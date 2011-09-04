@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses />.
     <parent>
         <groupId>fr.dudie</groupId>
         <artifactId>dudie-parent</artifactId>
-        <version>1</version>
+        <version>1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -45,6 +45,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses />.
         <system>Github tracker</system>
         <url>https://github.com/kops/keolis-rennes-api/issues</url>
     </issueManagement>
+
+    <distributionManagement>
+        <!-- Deploy the maven site to Github using Wagon GitSite. -->
+        <site>
+            <id>github-project-site</id>
+            <url>gitsite:git@github.com/kops/keolis-rennes-api.git</url>
+        </site>
+    </distributionManagement>
 
     <properties>
         <!-- compile time deps versions -->
