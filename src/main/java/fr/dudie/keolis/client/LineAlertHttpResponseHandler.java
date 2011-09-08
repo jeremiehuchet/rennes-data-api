@@ -107,9 +107,17 @@ public class LineAlertHttpResponseHandler implements ResponseHandler<List<LineAl
         alert.setEndTime(KeoUtils.convertJsonStringToDate(jsonAlert.optString("endtime")));
         alert.setMajorDisturbance(jsonAlert.optString("majordisturbance"));
 
-        final JSONArray lines = jsonAlert.optJSONArray("lines");
-        for (int i = 0; lines != null && !lines.isNull(i); i++) {
-            alert.getLines().add(lines.optString(i));
+        final JSONObject lines = jsonAlert.optJSONObject("lines");
+        final JSONArray lineArray = lines.optJSONArray("line");
+        if (null != lineArray) {
+            for (int i = 0; lineArray != null && !lineArray.isNull(i); i++) {
+                alert.getLines().add(lineArray.optString(i));
+            }
+        } else {
+            final String line = lines.optString("line");
+            if (null != line) {
+                alert.getLines().add(line);
+            }
         }
         return alert;
     }

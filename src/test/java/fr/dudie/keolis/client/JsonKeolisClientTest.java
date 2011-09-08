@@ -1,21 +1,10 @@
 package fr.dudie.keolis.client;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
-import java.util.Properties;
-
-import junit.framework.TestCase;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.http.client.HttpClient;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.SingleClientConnManager;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,46 +19,22 @@ import fr.dudie.keolis.model.RelayPark;
  * 
  * @author Jérémie Huchet
  */
-public final class JsonKeolisClientTest extends TestCase {
+public final class JsonKeolisClientTest extends AbstractJsonKeolisClientTest {
 
     /** The event logger. */
     private static final Logger LOGGER = LoggerFactory.getLogger(JsonKeolisClientTest.class);
 
-    /** Path to the properties file. */
-    private static final String PROPS_PATH = "/keolis-client-test.properties";
-
-    /** Loaded properties. */
-    private static final Properties PROPS = new Properties();
-
-    /** The tested keolis client. */
-    private static JsonKeolisClient keolisClient;
-
     /**
-     * Instantiates the test.
+     * Constructor.
      * 
      * @param name
      *            the test name
      * @throws IOException
-     *             an error occurred durign initialization
+     *             an error occurred during initialization
      */
     public JsonKeolisClientTest(final String name) throws IOException {
 
         super(name);
-
-        LOGGER.info("Loading configuration file {}", PROPS_PATH);
-        final InputStream in = JsonKeolisClientTest.class.getResourceAsStream(PROPS_PATH);
-        PROPS.load(in);
-
-        LOGGER.info("Preparing http client");
-        final SchemeRegistry registry = new SchemeRegistry();
-        registry.register(new Scheme("http", new PlainSocketFactory(), 80));
-        final ClientConnectionManager connexionManager = new SingleClientConnManager(null, registry);
-        final HttpClient httpClient = new DefaultHttpClient(connexionManager, null);
-
-        final String url = PROPS.getProperty("keolis.api.url");
-        final String key = PROPS.getProperty("keolis.api.key");
-        keolisClient = new JsonKeolisClient(httpClient, url, key);
-
     }
 
     /**
@@ -85,7 +50,7 @@ public final class JsonKeolisClientTest extends TestCase {
 
         List<BikeStation> stations = null;
 
-        stations = keolisClient.getAllBikeStations();
+        stations = getKeolisClient().getAllBikeStations();
 
         assertNotNull("no bike stations returned by the api", stations);
         assertTrue("at least one bike station should be returned by the api", stations.size() > 0);
@@ -120,11 +85,11 @@ public final class JsonKeolisClientTest extends TestCase {
 
         List<LineIcon> icons = null;
 
-        icons = keolisClient.getAllLineIcons();
+        icons = getKeolisClient().getAllLineIcons();
 
         assertNotNull("no line icons returned by the api", icons);
         assertTrue("at least one line icon should be returned by the api", icons.size() > 0);
-        assertEquals("on September, 3rd 2011, the keolis API returns 130 line icons", 130,
+        assertEquals("on September, 6th 2011, the keolis API returns 128 line icons", 128,
                 icons.size());
 
         for (final LineIcon icon : icons) {
@@ -151,7 +116,7 @@ public final class JsonKeolisClientTest extends TestCase {
 
         List<RelayPark> parks = null;
 
-        parks = keolisClient.getAllRelayParks();
+        parks = getKeolisClient().getAllRelayParks();
 
         assertNotNull("no relay parks returned by the api", parks);
         assertTrue("at least one park should be returned by the api", parks.size() > 0);
@@ -178,7 +143,7 @@ public final class JsonKeolisClientTest extends TestCase {
 
         List<RelayPark> parks = null;
 
-        parks = keolisClient.getRelayParksNearFrom(1600000, 1600000);
+        parks = getKeolisClient().getRelayParksNearFrom(1600000, 1600000);
 
         assertNotNull("no relay parks returned by the api", parks);
         assertTrue("at least one park should be returned by the api", parks.size() > 0);
@@ -205,7 +170,7 @@ public final class JsonKeolisClientTest extends TestCase {
 
         List<LineAlert> alerts = null;
 
-        alerts = keolisClient.getAllLinesAlerts();
+        alerts = getKeolisClient().getAllLinesAlerts();
 
         assertNotNull("no alert returned by the api", alerts);
         assertTrue("at least one alert should be returned by the api", alerts.size() > 0);
@@ -231,7 +196,7 @@ public final class JsonKeolisClientTest extends TestCase {
 
         List<LineAlert> alerts = null;
 
-        alerts = keolisClient.getLinesAlertsForLine("59");
+        alerts = getKeolisClient().getLinesAlertsForLine("59");
 
         assertNotNull("an alert should be returned for line 59", alerts);
         assertTrue("at least one alert should be returned by the api", alerts.size() > 0);
@@ -257,7 +222,7 @@ public final class JsonKeolisClientTest extends TestCase {
 
         List<LineAlert> alerts = null;
 
-        alerts = keolisClient.getLinesAlertsForLine("unexistingLine");
+        alerts = getKeolisClient().getLinesAlertsForLine("unexistingLine");
 
         assertNull("no alert should be returned for line 'unexistingLine'", alerts);
 
