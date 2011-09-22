@@ -20,14 +20,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses />.
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>keolis-rennes-api</artifactId>
+    <artifactId>rennes-data-api</artifactId>
     <version>0.2.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Keolis Rennes Java API client</name>
     <description>A simple client library for the Keolis Rennes API written in Java</description>
 
-    <url>http://kops.github.com/keolis-rennes-api</url>
+    <url>http://kops.github.com/rennes-data-api</url>
     <licenses>
         <license>
             <name>GNU General Public License, Version 3</name>
@@ -36,20 +36,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses />.
         </license>
     </licenses>
     <scm>
-        <url>https://github.com/kops/keolis-rennes-api/tree/master</url>
-        <connection>scm:git:git@github.com:kops/keolis-rennes-api.git</connection>
-        <developerConnection>scm:git:git@github.com:kops/keolis-rennes-api.git</developerConnection>
+        <url>https://github.com/kops/rennes-data-api/tree/master</url>
+        <connection>scm:git:git@github.com:kops/rennes-data-api.git</connection>
+        <developerConnection>scm:git:git@github.com:kops/rennes-data-api.git</developerConnection>
     </scm>
     <issueManagement>
         <system>Github tracker</system>
-        <url>https://github.com/kops/keolis-rennes-api/issues</url>
+        <url>https://github.com/kops/rennes-data-api/issues</url>
     </issueManagement>
 
     <distributionManagement>
         <!-- Deploy the maven site to Github using Wagon GitSite. -->
         <site>
             <id>github-project-site</id>
-            <url>gitsite:git@github.com/kops/keolis-rennes-api.git</url>
+            <url>gitsite:git@github.com/kops/rennes-data-api.git</url>
         </site>
     </distributionManagement>
 
@@ -112,7 +112,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses />.
             <activation>
                 <activeByDefault>true</activeByDefault>
                 <property>
-                    <name>keolis-rennes-api.target</name>
+                    <name>rennes-data-api.target</name>
                     <value>java</value>
                 </property>
             </activation>
@@ -141,7 +141,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses />.
             <id>target-android</id>
             <activation>
                 <property>
-                    <name>keolis-rennes-api.target</name>
+                    <name>rennes-data-api.target</name>
                     <value>android</value>
                 </property>
             </activation>
