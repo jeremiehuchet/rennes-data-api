@@ -2,20 +2,20 @@
 
 <rss version="0.91">
   <channel>
-    <title>Keolis Rennes Java API client - Checkstyle report</title>
-    <link>http://kops.github.com/keolis-rennes-api</link>
-    <description>Keolis Rennes Java API client - Checkstyle report</description>
+    <title>Rennes data Java API client - Checkstyle report</title>
+    <link>http://kops.github.com/rennes-data-api</link>
+    <description>Rennes data Java API client - Checkstyle report</description>
     <language>en-us</language>
     <copyright>&#169;2011</copyright>
     <item>
       <title>File: 16,
              Errors: 0,
-             Warnings: 42,
+             Warnings: 44,
              Infos: 0
       </title>
-            <link>http://kops.github.com/keolis-rennes-api/checkstyle.html</link>
+            <link>http://kops.github.com/rennes-data-api/checkstyle.html</link>
       <description>
-        <p>Click <a href="http://kops.github.com/keolis-rennes-api/checkstyle.html">here</a> for the full Checkstyle report.</p>
+        <p>Click <a href="http://kops.github.com/rennes-data-api/checkstyle.html">here</a> for the full Checkstyle report.</p>
 
         <table summary="Files" boder="1">
           <thead>
@@ -29,7 +29,7 @@
           <tbody>
                           <tr>
                 <td>
-                  <a href="http://kops.github.com/keolis-rennes-api/checkstyle.html#fr.dudie.keolis.client.JsonKeolisClient.java">fr/dudie/keolis/client/JsonKeolisClient.java</a>
+                  <a href="http://kops.github.com/rennes-data-api/checkstyle.html#fr.dudie.keolis.client.JsonKeolisClient.java">fr/dudie/keolis/client/JsonKeolisClient.java</a>
                 </td>
                 <td>
                   0
@@ -43,7 +43,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://kops.github.com/keolis-rennes-api/checkstyle.html#fr.dudie.keolis.client.LineAlertHttpResponseHandler.java">fr/dudie/keolis/client/LineAlertHttpResponseHandler.java</a>
+                  <a href="http://kops.github.com/rennes-data-api/checkstyle.html#fr.dudie.keolis.client.LineAlertHttpResponseHandler.java">fr/dudie/keolis/client/LineAlertHttpResponseHandler.java</a>
                 </td>
                 <td>
                   0
@@ -57,7 +57,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://kops.github.com/keolis-rennes-api/checkstyle.html#fr.dudie.keolis.client.KeolisClient.java">fr/dudie/keolis/client/KeolisClient.java</a>
+                  <a href="http://kops.github.com/rennes-data-api/checkstyle.html#fr.dudie.keolis.client.KeolisClient.java">fr/dudie/keolis/client/KeolisClient.java</a>
                 </td>
                 <td>
                   0
@@ -71,7 +71,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://kops.github.com/keolis-rennes-api/checkstyle.html#fr.dudie.keolis.client.LineIconsHttpResponseHandler.java">fr/dudie/keolis/client/LineIconsHttpResponseHandler.java</a>
+                  <a href="http://kops.github.com/rennes-data-api/checkstyle.html#fr.dudie.keolis.client.LineIconsHttpResponseHandler.java">fr/dudie/keolis/client/LineIconsHttpResponseHandler.java</a>
                 </td>
                 <td>
                   0
@@ -85,7 +85,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://kops.github.com/keolis-rennes-api/checkstyle.html#fr.dudie.keolis.model.RelayPark.java">fr/dudie/keolis/model/RelayPark.java</a>
+                  <a href="http://kops.github.com/rennes-data-api/checkstyle.html#fr.dudie.keolis.model.RelayPark.java">fr/dudie/keolis/model/RelayPark.java</a>
                 </td>
                 <td>
                   0
@@ -99,7 +99,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://kops.github.com/keolis-rennes-api/checkstyle.html#fr.dudie.keolis.client.BikeStationHttpResponseHandler.java">fr/dudie/keolis/client/BikeStationHttpResponseHandler.java</a>
+                  <a href="http://kops.github.com/rennes-data-api/checkstyle.html#fr.dudie.keolis.client.BikeStationHttpResponseHandler.java">fr/dudie/keolis/client/BikeStationHttpResponseHandler.java</a>
                 </td>
                 <td>
                   0
@@ -113,7 +113,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://kops.github.com/keolis-rennes-api/checkstyle.html#fr.dudie.keolis.model.SubwayStation.java">fr/dudie/keolis/model/SubwayStation.java</a>
+                  <a href="http://kops.github.com/rennes-data-api/checkstyle.html#fr.dudie.keolis.model.SubwayStation.java">fr/dudie/keolis/model/SubwayStation.java</a>
                 </td>
                 <td>
                   0
@@ -127,7 +127,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://kops.github.com/keolis-rennes-api/checkstyle.html#fr.dudie.keolis.client.SubwayStationHttpResponseHandler.java">fr/dudie/keolis/client/SubwayStationHttpResponseHandler.java</a>
+                  <a href="http://kops.github.com/rennes-data-api/checkstyle.html#fr.dudie.keolis.client.SubwayStationHttpResponseHandler.java">fr/dudie/keolis/client/SubwayStationHttpResponseHandler.java</a>
                 </td>
                 <td>
                   0
@@ -141,13 +141,13 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://kops.github.com/keolis-rennes-api/checkstyle.html#fr.dudie.keolis.model.LineAlert.java">fr/dudie/keolis/model/LineAlert.java</a>
+                  <a href="http://kops.github.com/rennes-data-api/checkstyle.html#fr.dudie.keolis.model.LineAlert.java">fr/dudie/keolis/model/LineAlert.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  1
+                  3
                 </td>
                 <td>
                   0
@@ -155,7 +155,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://kops.github.com/keolis-rennes-api/checkstyle.html#fr.dudie.keolis.client.RelayParkHttpResponseHandler.java">fr/dudie/keolis/client/RelayParkHttpResponseHandler.java</a>
+                  <a href="http://kops.github.com/rennes-data-api/checkstyle.html#fr.dudie.keolis.client.RelayParkHttpResponseHandler.java">fr/dudie/keolis/client/RelayParkHttpResponseHandler.java</a>
                 </td>
                 <td>
                   0
@@ -169,7 +169,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://kops.github.com/keolis-rennes-api/checkstyle.html#fr.dudie.keolis.model.LineIcon.java">fr/dudie/keolis/model/LineIcon.java</a>
+                  <a href="http://kops.github.com/rennes-data-api/checkstyle.html#fr.dudie.keolis.model.LineIcon.java">fr/dudie/keolis/model/LineIcon.java</a>
                 </td>
                 <td>
                   0
@@ -183,7 +183,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://kops.github.com/keolis-rennes-api/checkstyle.html#fr.dudie.keolis.model.BikeStation.java">fr/dudie/keolis/model/BikeStation.java</a>
+                  <a href="http://kops.github.com/rennes-data-api/checkstyle.html#fr.dudie.keolis.model.BikeStation.java">fr/dudie/keolis/model/BikeStation.java</a>
                 </td>
                 <td>
                   0
@@ -197,7 +197,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://kops.github.com/keolis-rennes-api/checkstyle.html#fr.dudie.keolis.client.Keo.java">fr/dudie/keolis/client/Keo.java</a>
+                  <a href="http://kops.github.com/rennes-data-api/checkstyle.html#fr.dudie.keolis.client.Keo.java">fr/dudie/keolis/client/Keo.java</a>
                 </td>
                 <td>
                   0
@@ -211,7 +211,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://kops.github.com/keolis-rennes-api/checkstyle.html#fr.dudie.keolis.StringUtils.java">fr/dudie/keolis/StringUtils.java</a>
+                  <a href="http://kops.github.com/rennes-data-api/checkstyle.html#fr.dudie.keolis.StringUtils.java">fr/dudie/keolis/StringUtils.java</a>
                 </td>
                 <td>
                   0
@@ -225,7 +225,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://kops.github.com/keolis-rennes-api/checkstyle.html#fr.dudie.keolis.client.KeoUtils.java">fr/dudie/keolis/client/KeoUtils.java</a>
+                  <a href="http://kops.github.com/rennes-data-api/checkstyle.html#fr.dudie.keolis.client.KeoUtils.java">fr/dudie/keolis/client/KeoUtils.java</a>
                 </td>
                 <td>
                   0
@@ -239,7 +239,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://kops.github.com/keolis-rennes-api/checkstyle.html#fr.dudie.keolis.model.RelayParkState.java">fr/dudie/keolis/model/RelayParkState.java</a>
+                  <a href="http://kops.github.com/rennes-data-api/checkstyle.html#fr.dudie.keolis.model.RelayParkState.java">fr/dudie/keolis/model/RelayParkState.java</a>
                 </td>
                 <td>
                   0
