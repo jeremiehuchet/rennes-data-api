@@ -26,7 +26,7 @@ public class StringUtils {
 
         if (null != s) {
             final char[] chars = s.toLowerCase().toCharArray();
-            final Matcher m = Pattern.compile("\\w+").matcher(s);
+            final Matcher m = Pattern.compile("[^\\p{Punct}\\s]{3,}").matcher(s);
             while (m.find()) {
                 chars[m.start()] = Character.toUpperCase(chars[m.start()]);
             }
