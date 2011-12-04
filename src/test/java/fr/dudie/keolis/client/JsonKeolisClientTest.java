@@ -13,6 +13,7 @@ import fr.dudie.keolis.model.BikeStation;
 import fr.dudie.keolis.model.LineAlert;
 import fr.dudie.keolis.model.LineIcon;
 import fr.dudie.keolis.model.RelayPark;
+import fr.dudie.keolis.model.SubwayStation;
 
 /**
  * Test class for {@link JsonKeolisClient}.
@@ -44,9 +45,11 @@ public final class JsonKeolisClientTest extends AbstractJsonKeolisClientTest {
      *             an error occurred
      */
     @Test
-    public void testGetBikeStations() throws IOException {
+    public void testGetAllBikeStations() throws IOException {
 
-        LOGGER.info("testGetBikeStations.start");
+        LOGGER.info("testGetAllBikeStations.start");
+
+        final long debut = System.currentTimeMillis();
 
         List<BikeStation> stations = null;
 
@@ -69,7 +72,40 @@ public final class JsonKeolisClientTest extends AbstractJsonKeolisClientTest {
                     station.getLongitude());
         }
 
-        LOGGER.info("testGetBikeStations.end");
+        final long fin = System.currentTimeMillis();
+
+        LOGGER.info("testGetAllBikeStations.end" + (fin - debut) + "ms");
+    }
+
+    /**
+     * Test method for {@link JsonKeolisClient#getBikeStation(String)}.
+     * 
+     * @throws IOException
+     *             an error occurred
+     */
+    @Test
+    public void testGetBikeStation() throws IOException {
+
+        LOGGER.info("testGetBikeStation.start");
+
+        BikeStation station = getKeolisClient().getBikeStation("1");
+
+        LOGGER.debug("{}", ToStringBuilder.reflectionToString(station));
+
+        assertNotNull("no subway station returned by the api", station);
+        assertEquals("REPUBLIQUE", station.getName());
+        assertEquals("PLACE DE LA RÉPUBLIQUE", station.getAddress());
+        assertEquals(48.10999, station.getLatitude());
+        assertEquals(-1.678027, station.getLongitude());
+        assertNotNull(String.format("station [%s] has no avalaible slots value", station),
+                station.getAvailableSlots());
+        assertNotNull(String.format("station [%s] has no avalaible bikes value", station),
+                station.getAvailableBikes());
+        assertEquals(false, station.isPos());
+        assertNotNull(String.format("station [%s] has no last update date", station),
+                station.getLastUpdate());
+
+        LOGGER.info("testGetBikeStation.end");
     }
 
     /**
@@ -95,7 +131,7 @@ public final class JsonKeolisClientTest extends AbstractJsonKeolisClientTest {
         for (final LineIcon icon : icons) {
             LOGGER.debug("checking {}", icon);
             assertFalse(String.format("station [%s] has no URL", icon),
-                    StringUtils.isEmpty(icon.getIconUrl()));
+                    StringUtils.isEmpty(icon.getIconName()));
             assertFalse(String.format("station [%s] has no line name", icon),
                     StringUtils.isEmpty(icon.getLine()));
         }
@@ -155,6 +191,59 @@ public final class JsonKeolisClientTest extends AbstractJsonKeolisClientTest {
         }
 
         LOGGER.info("testRelayParksNearFrom.end");
+    }
+
+    /**
+     * Test method for {@link JsonKeolisClient#getAllSubwayStations()}.
+     * 
+     * @throws IOException
+     *             an error occurred
+     */
+    @Test
+    public void testGetAllSubwayStations() throws IOException {
+
+        LOGGER.info("testGetAllSubwayStations.start");
+
+        List<SubwayStation> stations = getKeolisClient().getAllSubwayStations();
+
+        assertNotNull("no subway station returned by the api", stations);
+        assertTrue("at least one station should be returned by the api", stations.size() > 0);
+        assertEquals("on November, 25th 2011, the keolis API returns 15 subway stations", 15,
+                stations.size());
+
+        for (final SubwayStation station : stations) {
+            LOGGER.debug("{}", ToStringBuilder.reflectionToString(station));
+        }
+
+        LOGGER.info("testGetAllSubwayStations.end");
+    }
+
+    /**
+     * Test method for {@link JsonKeolisClient#getSubwayStation(String)}.
+     * 
+     * @throws IOException
+     *             an error occurred
+     */
+    @Test
+    public void testGetSubwayStations() throws IOException {
+
+        LOGGER.info("testGetSubwayStations.start");
+
+        SubwayStation station = getKeolisClient().getSubwayStation("VU");
+
+        LOGGER.debug("{}", ToStringBuilder.reflectionToString(station));
+
+        assertNotNull("no subway station returned by the api", station);
+        assertEquals("Villejean-Université", station.getName());
+        assertEquals(48.12125, station.getLatitude());
+        assertEquals(-1.70395, station.getLongitude());
+        assertEquals(14, station.getRankingPlatformDirection1());
+        assertEquals(16, station.getRankingPlatformDirection2());
+        assertEquals(-1, station.getFloors());
+        assertNotNull(String.format("station [%s] has no last update date", station),
+                station.getLastUpdate());
+
+        LOGGER.info("testGetSubwayStations.end");
     }
 
     /**
@@ -228,4 +317,5 @@ public final class JsonKeolisClientTest extends AbstractJsonKeolisClientTest {
 
         LOGGER.info("testGetLinesAlertsForUnexistingLine.start");
     }
+
 }

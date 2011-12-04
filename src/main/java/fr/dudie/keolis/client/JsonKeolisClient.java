@@ -124,10 +124,9 @@ public class JsonKeolisClient implements KeolisClient {
         params.add(new BasicNameValuePair(Keo.GetBikeStations.PARAM_STATION,
                 Keo.GetBikeStations.VALUE_STATION_ALL));
 
-        final List<BikeStation> data = httpClient.execute(createKeolisRequest(params),
-                defaultBikeStationHandler);
+        return httpClient.execute(createKeolisRequest(params), defaultBikeStationHandler)
+                .getOpendata().getAnswer().getData().getStations();
 
-        return data;
     }
 
     /**
@@ -151,10 +150,9 @@ public class JsonKeolisClient implements KeolisClient {
         params.add(new BasicNameValuePair(Keo.GetBikeStations.PARAM_LONGITUDE, String
                 .valueOf(longitude)));
 
-        final List<BikeStation> data = httpClient.execute(createKeolisRequest(params),
-                defaultBikeStationHandler);
+        return httpClient.execute(createKeolisRequest(params), defaultBikeStationHandler)
+                .getOpendata().getAnswer().getData().getStations();
 
-        return data;
     }
 
     /**
@@ -172,14 +170,9 @@ public class JsonKeolisClient implements KeolisClient {
                 Keo.GetBikeStations.VALUE_STATION_IDENTIFIER));
         params.add(new BasicNameValuePair(Keo.GetBikeStations.PARAM_VALUE, id));
 
-        final List<BikeStation> data = httpClient.execute(createKeolisRequest(params),
-                defaultBikeStationHandler);
+        return httpClient.execute(createKeolisRequest(params), defaultBikeStationHandler)
+                .getOpendata().getAnswer().getData().getStations().get(0);
 
-        if (data != null && !data.isEmpty()) {
-            return data.get(0);
-        } else {
-            return null;
-        }
     }
 
     /**
@@ -196,10 +189,9 @@ public class JsonKeolisClient implements KeolisClient {
         params.add(new BasicNameValuePair(Keo.GetSubwayStations.PARAM_MODE,
                 Keo.GetSubwayStations.VALUE_MODE_ALL));
 
-        final List<SubwayStation> data = httpClient.execute(createKeolisRequest(params),
-                defaultSubwayStationHandler);
+        return httpClient.execute(createKeolisRequest(params), defaultSubwayStationHandler)
+                .getOpendata().getAnswer().getData().getStations();
 
-        return data;
     }
 
     /**
@@ -223,10 +215,9 @@ public class JsonKeolisClient implements KeolisClient {
         params.add(new BasicNameValuePair(Keo.GetSubwayStations.PARAM_LONGITUDE, String
                 .valueOf(longitude)));
 
-        final List<SubwayStation> data = httpClient.execute(createKeolisRequest(params),
-                defaultSubwayStationHandler);
+        return httpClient.execute(createKeolisRequest(params), defaultSubwayStationHandler)
+                .getOpendata().getAnswer().getData().getStations();
 
-        return data;
     }
 
     /**
@@ -244,14 +235,9 @@ public class JsonKeolisClient implements KeolisClient {
                 Keo.GetSubwayStations.VALUE_MODE_STATION));
         params.add(new BasicNameValuePair(Keo.GetSubwayStations.PARAM_STATION_IDENTIFIER, id));
 
-        final List<SubwayStation> data = httpClient.execute(createKeolisRequest(params),
-                defaultSubwayStationHandler);
+        return httpClient.execute(createKeolisRequest(params), defaultSubwayStationHandler)
+                .getOpendata().getAnswer().getData().getStations().get(0);
 
-        if (data != null && !data.isEmpty()) {
-            return data.get(0);
-        } else {
-            return null;
-        }
     }
 
     /**
@@ -268,10 +254,9 @@ public class JsonKeolisClient implements KeolisClient {
         params.add(new BasicNameValuePair(Keo.GetLinesIcons.PARAM_MODE,
                 Keo.GetLinesIcons.VALUE_MODE_ALL));
 
-        final List<LineIcon> data = httpClient.execute(createKeolisRequest(params),
-                defaultLineIconHandler);
+        return httpClient.execute(createKeolisRequest(params), defaultLineIconHandler)
+                .getOpendata().getAnswer().getData().getLines();
 
-        return data;
     }
 
     /**
@@ -280,16 +265,15 @@ public class JsonKeolisClient implements KeolisClient {
      * @see fr.dudie.keolis.client.KeolisClient#getAllRelayParks()
      */
     @Override
-    public List<RelayPark> getAllRelayParks() throws IOException {
+    public final List<RelayPark> getAllRelayParks() throws IOException {
 
         final List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair(Keo.Network.PARAM_NAME, Keo.Network.VALUE_STAR));
         params.add(new BasicNameValuePair(Keo.Command.PARAM_NAME, Keo.Command.GET_RELAY_PARKS));
 
-        final List<RelayPark> data = httpClient.execute(createKeolisRequest(params),
-                defaultRelayParkHandler);
+        return httpClient.execute(createKeolisRequest(params), defaultRelayParkHandler)
+                .getOpendata().getAnswer().getData().getRelayParks();
 
-        return data;
     }
 
     /**
@@ -298,7 +282,7 @@ public class JsonKeolisClient implements KeolisClient {
      * @see fr.dudie.keolis.client.KeolisClient#getRelayParksNearFrom(int, int)
      */
     @Override
-    public List<RelayPark> getRelayParksNearFrom(final int latitude, final int longitude)
+    public final List<RelayPark> getRelayParksNearFrom(final int latitude, final int longitude)
             throws IOException {
 
         final List<NameValuePair> params = new ArrayList<NameValuePair>(6);
@@ -310,10 +294,9 @@ public class JsonKeolisClient implements KeolisClient {
         params.add(new BasicNameValuePair(Keo.GetRelayParks.PARAM_LONGITUDE, String
                 .valueOf(longitude)));
 
-        final List<RelayPark> data = httpClient.execute(createKeolisRequest(params),
-                defaultRelayParkHandler);
+        return httpClient.execute(createKeolisRequest(params), defaultRelayParkHandler)
+                .getOpendata().getAnswer().getData().getRelayParks();
 
-        return data;
     }
 
     /**
@@ -322,7 +305,7 @@ public class JsonKeolisClient implements KeolisClient {
      * @see fr.dudie.keolis.client.KeolisClient#getAllLinesAlerts()
      */
     @Override
-    public List<LineAlert> getAllLinesAlerts() throws IOException {
+    public final List<LineAlert> getAllLinesAlerts() throws IOException {
 
         final List<NameValuePair> params = new ArrayList<NameValuePair>(5);
         params.add(new BasicNameValuePair(Keo.Network.PARAM_NAME, Keo.Network.VALUE_STAR));
@@ -331,10 +314,9 @@ public class JsonKeolisClient implements KeolisClient {
         params.add(new BasicNameValuePair(Keo.GetLinesAlerts.PARAM_MODE,
                 Keo.GetLinesAlerts.VALUE_MODE_ALL));
 
-        final List<LineAlert> data = httpClient.execute(createKeolisRequest(params),
-                defaultLineAlertHandler);
+        return httpClient.execute(createKeolisRequest(params), defaultLineAlertHandler)
+                .getOpendata().getAnswer().getData().getAlerts();
 
-        return data;
     }
 
     /**
@@ -343,7 +325,7 @@ public class JsonKeolisClient implements KeolisClient {
      * @see fr.dudie.keolis.client.KeolisClient#getLinesAlertsForLine(java.lang.String)
      */
     @Override
-    public List<LineAlert> getLinesAlertsForLine(final String line) throws IOException {
+    public final List<LineAlert> getLinesAlertsForLine(final String line) throws IOException {
 
         final List<NameValuePair> params = new ArrayList<NameValuePair>(6);
         params.add(new BasicNameValuePair(Keo.Network.PARAM_NAME, Keo.Network.VALUE_STAR));
@@ -353,9 +335,8 @@ public class JsonKeolisClient implements KeolisClient {
                 Keo.GetLinesAlerts.VALUE_MODE_LINE));
         params.add(new BasicNameValuePair(Keo.GetLinesAlerts.PARAM_LINE, line));
 
-        final List<LineAlert> data = httpClient.execute(createKeolisRequest(params),
-                defaultLineAlertHandler);
+        return httpClient.execute(createKeolisRequest(params), defaultLineAlertHandler)
+                .getOpendata().getAnswer().getData().getAlerts();
 
-        return data;
     }
 }

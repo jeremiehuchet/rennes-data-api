@@ -3,7 +3,8 @@ package fr.dudie.keolis.model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.StringTokenizer;
+
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Represents a line alert.
@@ -22,7 +23,8 @@ public class LineAlert {
     private Date endTime;
 
     /** The lines the alert is related to. */
-    private List<String> lines = new ArrayList<String>();
+    @SerializedName("line")
+    private final List<String> lines = new ArrayList<String>();
 
     /** The major disturbance. */
     private String majorDisturbance;
@@ -41,6 +43,56 @@ public class LineAlert {
     }
 
     /**
+     * Gets the startTime.
+     * 
+     * @return the startTime
+     */
+    public final Date getStartTime() {
+
+        return startTime;
+    }
+
+    /**
+     * Gets the endTime.
+     * 
+     * @return the endTime
+     */
+    public final Date getEndTime() {
+
+        return endTime;
+    }
+
+    /**
+     * Gets the lines.
+     * 
+     * @return the lines
+     */
+    public final List<String> getLines() {
+
+        return lines;
+    }
+
+    /**
+     * Gets the majorDisturbance.
+     * 
+     * @return the majorDisturbance
+     */
+    public final String getMajorDisturbance() {
+
+        return majorDisturbance;
+    }
+
+    /**
+     * Gets the detail.
+     * 
+     * @return the detail
+     */
+    public final String getDetail() {
+
+        return detail;
+    }
+
+    /**
      * Sets the title.
      * 
      * @param title
@@ -49,16 +101,6 @@ public class LineAlert {
     public final void setTitle(final String title) {
 
         this.title = title;
-    }
-
-    /**
-     * Gets the startTime.
-     * 
-     * @return the startTime
-     */
-    public final Date getStartTime() {
-
-        return startTime;
     }
 
     /**
@@ -73,16 +115,6 @@ public class LineAlert {
     }
 
     /**
-     * Gets the endTime.
-     * 
-     * @return the endTime
-     */
-    public final Date getEndTime() {
-
-        return endTime;
-    }
-
-    /**
      * Sets the endTime.
      * 
      * @param endTime
@@ -94,55 +126,14 @@ public class LineAlert {
     }
 
     /**
-     * Gets the lines.
-     * 
-     * @return the lines
-     */
-    public final List<String> getLines() {
-
-        return lines;
-    }
-
-    /**
-     * Sets the lines.
-     * 
-     * @param lines
-     *            the lines to set
-     */
-    public final void setLines(final List<String> lines) {
-
-        this.lines = lines;
-    }
-
-    /**
-     * Gets the majorDisturbance.
-     * 
-     * @return the majorDisturbance
-     */
-    public final String getMajorDisturbance() {
-
-        return majorDisturbance;
-    }
-
-    /**
      * Sets the majorDisturbance.
      * 
      * @param majorDisturbance
      *            the majorDisturbance to set
      */
-    public final void setMajorDisturbance(final String majorDisturbance) {
+    public final void getMajorDisturbance(final String majorDisturbance) {
 
         this.majorDisturbance = majorDisturbance;
-    }
-
-    /**
-     * Gets the detail.
-     * 
-     * @return the detail
-     */
-    public final String getDetail() {
-
-        return detail;
     }
 
     /**
@@ -157,51 +148,28 @@ public class LineAlert {
     }
 
     /**
-     * Try to make the alert title more readable.
-     * <p>
-     * Keolis API returns <em>titles</em> with the following formats:
-     * <code>&lt;line id&gt;* &lt;alert title&gt;</code> and a list of line ids related to the
-     * alert.
-     * <p>
-     * Sample : <em>4 40 52 Some alert about something</em> and the following list of lines ids :
-     * <em>4, 40ex, 52</em>.
-     * <p>
-     * This method removes lines identifiers from the begining of the title.
+     * {@inheritDoc}
      * 
-     * @return a title without line identifiers
+     * @see java.lang.Object#toString()
      */
-    public String getBetterTitle() {
+    @Override
+    public final String toString() {
 
-        String betterTitle = title;
-        boolean lastTokenNotFound = false;
-        final List<String> lowercaseLines = getLinesLowercase();
-        final StringTokenizer stk = new StringTokenizer(title, " ");
-
-        while (stk.hasMoreElements() && !lastTokenNotFound) {
-            final String word = stk.nextToken().toLowerCase();
-
-            if (lowercaseLines.contains(word)) {
-                // if word is a line identifier related to this alert, then remove it from the title
-                betterTitle = betterTitle.replaceFirst(String.format("\\s*%s\\s*", word), "");
-            } else {
-                // else stop trying to make a better title
-                lastTokenNotFound = true;
-            }
-        }
-        return betterTitle.substring(0, 1).toUpperCase() + betterTitle.substring(1);
+        StringBuilder builder = new StringBuilder();
+        builder.append("LineAlert [title=");
+        builder.append(title);
+        builder.append(", startTime=");
+        builder.append(startTime);
+        builder.append(", endTime=");
+        builder.append(endTime);
+        builder.append(", lines=");
+        builder.append(lines);
+        builder.append(", majorDisturbance=");
+        builder.append(majorDisturbance);
+        builder.append(", detail=");
+        builder.append(detail);
+        builder.append("]");
+        return builder.toString();
     }
 
-    /**
-     * Gets lowercase line identifiers.
-     * 
-     * @return the lowercased line ids
-     */
-    public List<String> getLinesLowercase() {
-
-        final List<String> linesLowercase = new ArrayList<String>(lines.size());
-        for (final String line : lines) {
-            linesLowercase.add(line.toLowerCase());
-        }
-        return linesLowercase;
-    }
 }
