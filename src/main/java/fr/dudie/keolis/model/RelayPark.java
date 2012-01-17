@@ -185,7 +185,7 @@ public class RelayPark {
     @Override
     public final String toString() {
 
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("RelayPark [name=");
         builder.append(name);
         builder.append(", latitude=");

@@ -23,7 +23,7 @@ public final class SubwayStationDeserializer implements JsonDeserializer<List<Su
     public List<SubwayStation> deserialize(final JsonElement json, final Type typeOfT,
             final JsonDeserializationContext context) {
 
-        ArrayList<SubwayStation> subwayStations = new ArrayList<SubwayStation>();
+        final ArrayList<SubwayStation> subwayStations = new ArrayList<SubwayStation>();
 
         if (json instanceof JsonArray) {
 

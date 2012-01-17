@@ -42,7 +42,7 @@ public class BikeData {
     @Override
     public final String toString() {
 
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("BikeData [stations=");
         builder.append(stations);
         builder.append("]");

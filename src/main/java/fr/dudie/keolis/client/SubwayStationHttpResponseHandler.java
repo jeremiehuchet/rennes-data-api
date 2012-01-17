@@ -63,7 +63,7 @@ public final class SubwayStationHttpResponseHandler implements
         final GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
-        Type apiResponseType = new TypeToken<ApiResponse<SubwayData>>() {
+        final Type apiResponseType = new TypeToken<ApiResponse<SubwayData>>() {
         }.getType();
 
         final InputStream inputStream = response.getEntity().getContent();
@@ -75,7 +75,7 @@ public final class SubwayStationHttpResponseHandler implements
 
         try {
             KeoUtils.checkResponse(apiResponse);
-        } catch (JSONException e) {
+        } catch (final JSONException e) {
             throw new IOException("Unable to parse the json response received from Keolis:\n" + e);
         }
 

@@ -42,7 +42,7 @@ public class LineAlertData {
     @Override
     public final String toString() {
 
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("LineAlertData [alerts=");
         builder.append(alerts);
         builder.append("]");

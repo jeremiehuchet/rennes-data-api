@@ -40,7 +40,7 @@ public class ApiResponse<T> {
     @Override
     public final String toString() {
 
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("ApiResponse [opendata=");
         builder.append(opendata);
         builder.append("]");

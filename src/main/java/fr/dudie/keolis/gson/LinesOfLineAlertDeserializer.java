@@ -22,11 +22,12 @@ public final class LinesOfLineAlertDeserializer implements JsonDeserializer<List
     public List<String> deserialize(final JsonElement json, final Type typeOfT,
             final JsonDeserializationContext context) {
 
-        if (json instanceof JsonArray) {
-            return KeoUtils.getGsonInstance().fromJson(json, typeOfT);
+        JsonElement lines = json.getAsJsonObject().get("line");
+        if (lines instanceof JsonArray) {
+            return KeoUtils.getGsonInstance().fromJson(lines, typeOfT);
         }
 
-        String line = context.deserialize(json, String.class);
+        String line = context.deserialize(lines, String.class);
         ArrayList<String> list = new ArrayList<String>();
         list.add(line);
         return list;

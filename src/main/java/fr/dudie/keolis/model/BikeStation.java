@@ -294,7 +294,7 @@ public class BikeStation {
     @Override
     public final String toString() {
 
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("BikeStation [id=");
         builder.append(id);
         builder.append(", name=");

@@ -52,7 +52,7 @@ public class RelayParkData {
     @Override
     public final String toString() {
 
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("RelayParkData [relayparks=");
         builder.append(relayparks);
         builder.append("]");

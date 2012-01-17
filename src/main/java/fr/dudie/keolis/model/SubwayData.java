@@ -42,7 +42,7 @@ public class SubwayData {
     @Override
     public final String toString() {
 
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("SubwayData [stations=");
         builder.append(stations);
         builder.append("]");

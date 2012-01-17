@@ -3,6 +3,7 @@ package fr.dudie.keolis.model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -17,16 +18,19 @@ public class LineAlert {
     private String title;
 
     /** The alert start time. */
+    @SerializedName("starttime")
     private Date startTime;
 
     /** The alert end time. */
+    @SerializedName("endtime")
     private Date endTime;
 
     /** The lines the alert is related to. */
-    @SerializedName("line")
+    @SerializedName("lines")
     private final List<String> lines = new ArrayList<String>();
 
     /** The major disturbance. */
+    @SerializedName("majordisturbance")
     private String majorDisturbance;
 
     /** The alert details. */
@@ -148,6 +152,55 @@ public class LineAlert {
     }
 
     /**
+     * Try to make the alert title more readable.
+     * <p>
+     * Keolis API returns <em>titles</em> with the following formats:
+     * <code>&lt;line id&gt;* &lt;alert title&gt;</code> and a list of line ids related to the
+     * alert.
+     * <p>
+     * Sample : <em>4 40 52 Some alert about something</em> and the following list of lines ids :
+     * <em>4, 40ex, 52</em>.
+     * <p>
+     * This method removes lines identifiers from the begining of the title.
+     * 
+     * @return a title without line identifiers
+     */
+    public String getBetterTitle() {
+
+        String betterTitle = title;
+        boolean lastTokenNotFound = false;
+        final List<String> lowercaseLines = getLinesLowercase();
+        final StringTokenizer stk = new StringTokenizer(title, " ");
+
+        while (stk.hasMoreElements() && !lastTokenNotFound) {
+            final String word = stk.nextToken().toLowerCase();
+
+            if (lowercaseLines.contains(word)) {
+                // if word is a line identifier related to this alert, then remove it from the title
+                betterTitle = betterTitle.replaceFirst(String.format("\\s*%s\\s*", word), "");
+            } else {
+                // else stop trying to make a better title
+                lastTokenNotFound = true;
+            }
+        }
+        return betterTitle.substring(0, 1).toUpperCase() + betterTitle.substring(1);
+    }
+
+    /**
+     * Gets lowercase line identifiers.
+     * 
+     * @return the lowercased line ids
+     */
+    public List<String> getLinesLowercase() {
+
+        final List<String> linesLowercase = new ArrayList<String>(lines.size());
+        for (final String line : lines) {
+            linesLowercase.add(line.toLowerCase());
+        }
+        return linesLowercase;
+    }
+
+    /**
      * {@inheritDoc}
      * 
      * @see java.lang.Object#toString()
@@ -155,7 +208,7 @@ public class LineAlert {
     @Override
     public final String toString() {
 
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("LineAlert [title=");
         builder.append(title);
         builder.append(", startTime=");

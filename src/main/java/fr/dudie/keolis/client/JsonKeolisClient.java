@@ -71,8 +71,8 @@ public class JsonKeolisClient implements KeolisClient {
     public JsonKeolisClient(final HttpClient httpClient, final String url, final String key) {
 
         this.httpClient = httpClient;
-        this.keolisApiUrl = url;
-        this.keolisApiKey = key;
+        keolisApiUrl = url;
+        keolisApiKey = key;
     }
 
     /**

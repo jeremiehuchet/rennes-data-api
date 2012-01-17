@@ -55,7 +55,7 @@ public final class LineIconsHttpResponseHandler implements
 
         final InputStream inputStream = response.getEntity().getContent();
 
-        Type apiResponseType = new TypeToken<ApiResponse<LineIconData>>() {
+        final Type apiResponseType = new TypeToken<ApiResponse<LineIconData>>() {
         }.getType();
 
         final ApiResponse<LineIconData> apiResponse = KeoUtils.getGsonInstance().fromJson(
@@ -65,7 +65,7 @@ public final class LineIconsHttpResponseHandler implements
 
         try {
             KeoUtils.checkResponse(apiResponse);
-        } catch (JSONException e) {
+        } catch (final JSONException e) {
             throw new IOException("Unable to parse the json response received from Keolis:\n" + e);
         }
 

@@ -41,7 +41,7 @@ public class Answer<T> {
      * @param status
      *            the status to set
      */
-    public void setStatus(Status status) {
+    public void setStatus(final Status status) {
 
         this.status = status;
     }
@@ -52,7 +52,7 @@ public class Answer<T> {
      * @param data
      *            the data to set
      */
-    public void setData(T data) {
+    public void setData(final T data) {
 
         this.data = data;
     }
@@ -65,7 +65,7 @@ public class Answer<T> {
     @Override
     public String toString() {
 
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("Answer [status=");
         builder.append(status);
         builder.append(", data=");

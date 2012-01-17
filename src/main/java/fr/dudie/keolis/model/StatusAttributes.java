@@ -63,7 +63,7 @@ public class StatusAttributes {
     @Override
     public final String toString() {
 
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("StatusAttributes [code=");
         builder.append(code);
         builder.append(", message=");

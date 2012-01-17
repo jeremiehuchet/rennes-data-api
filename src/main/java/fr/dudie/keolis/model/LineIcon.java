@@ -67,7 +67,7 @@ public class LineIcon {
     @Override
     public final String toString() {
 
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("LineIcon [line=");
         builder.append(line);
         builder.append(", iconName=");

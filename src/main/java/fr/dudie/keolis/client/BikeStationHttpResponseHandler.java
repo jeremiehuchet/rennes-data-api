@@ -60,7 +60,7 @@ public final class BikeStationHttpResponseHandler implements ResponseHandler<Api
 
         }
 
-        Type apiResponseType = new TypeToken<ApiResponse<BikeData>>() {
+        final Type apiResponseType = new TypeToken<ApiResponse<BikeData>>() {
         }.getType();
 
         final InputStream inputStream = response.getEntity().getContent();
@@ -72,7 +72,7 @@ public final class BikeStationHttpResponseHandler implements ResponseHandler<Api
 
         try {
             KeoUtils.checkResponse(apiResponse);
-        } catch (JSONException e) {
+        } catch (final JSONException e) {
             throw new IOException("Unable to parse the json response received from Keolis:\n" + e);
         }
 

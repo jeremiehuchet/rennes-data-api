@@ -69,7 +69,7 @@ public class OpenData<T> {
     @Override
     public final String toString() {
 
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("OpenData [request=");
         builder.append(request);
         builder.append(", answer=");

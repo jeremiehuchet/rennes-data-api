@@ -23,7 +23,7 @@ public final class BikeStationDeserializer implements JsonDeserializer<List<Bike
     public List<BikeStation> deserialize(final JsonElement json, final Type typeOfT,
             final JsonDeserializationContext context) {
 
-        ArrayList<BikeStation> bikeStations = new ArrayList<BikeStation>();
+        final ArrayList<BikeStation> bikeStations = new ArrayList<BikeStation>();
 
         if (json instanceof JsonArray) {
             for (int i = 0; i < ((JsonArray) json).size(); i++) {

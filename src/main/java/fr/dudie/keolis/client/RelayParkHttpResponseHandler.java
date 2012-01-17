@@ -59,7 +59,7 @@ public final class RelayParkHttpResponseHandler implements
 
         final InputStream inputStream = response.getEntity().getContent();
 
-        Type apiResponseType = new TypeToken<ApiResponse<RelayParkData>>() {
+        final Type apiResponseType = new TypeToken<ApiResponse<RelayParkData>>() {
         }.getType();
 
         final ApiResponse<RelayParkData> apiResponse = KeoUtils.getGsonInstance().fromJson(
@@ -69,7 +69,7 @@ public final class RelayParkHttpResponseHandler implements
 
         try {
             KeoUtils.checkResponse(apiResponse);
-        } catch (JSONException e) {
+        } catch (final JSONException e) {
             throw new IOException("Unable to parse the json response received from Keolis:\n" + e);
         }
 

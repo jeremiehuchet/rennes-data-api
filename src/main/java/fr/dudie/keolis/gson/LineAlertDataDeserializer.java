@@ -1,15 +1,15 @@
 package fr.dudie.keolis.gson;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
+import java.util.List;
 
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import com.google.gson.reflect.TypeToken;
 
-import fr.dudie.keolis.client.KeoUtils;
 import fr.dudie.keolis.model.LineAlert;
 import fr.dudie.keolis.model.LineAlertData;
 
@@ -26,14 +26,19 @@ public final class LineAlertDataDeserializer implements JsonDeserializer<LineAle
 
         if (json instanceof JsonPrimitive) {
             return new LineAlertData();
-        } else if (json instanceof JsonObject) {
-            LineAlertData data = new LineAlertData();
-            ArrayList<LineAlert> list = new ArrayList<LineAlert>();
-            list.add((LineAlert) context.deserialize(json, LineAlert.class));
-            data.setAlerts(list);
-            return data;
         } else {
-            return KeoUtils.getGsonInstance().fromJson(json, typeOfT);
+            // TOBO is there a way to avoid creating a new Gson ?
+            final GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+
+            // type adapter because list of only one element returned by keolis are not a JsonArray
+            // but a JsonObject.
+            final Type listOfLinesType = new TypeToken<List<LineAlert>>() {
+            }.getType();
+            gsonBuilder.registerTypeAdapter(listOfLinesType, new ListOfLineAlertDeserializer());
+
+            return gsonBuilder.create().fromJson(json, typeOfT);
+
         }
     }
 }
