@@ -1,16 +1,8 @@
 package fr.dudie.keolis.client;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.ResponseHandler;
-import org.json.JSONException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -37,46 +29,15 @@ import fr.dudie.keolis.model.LineAlertData;
  * 
  * @author Jérémie Huchet
  */
-public final class LineAlertHttpResponseHandler implements
-        ResponseHandler<ApiResponse<LineAlertData>> {
+public final class LineAlertHttpResponseHandler extends JsonResponseHandler<LineAlertData> {
 
-    /** The event logger. */
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(LineAlertHttpResponseHandler.class);
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.apache.http.client.ResponseHandler#handleResponse(org.apache.http.HttpResponse)
-     */
     @Override
-    public ApiResponse<LineAlertData> handleResponse(final HttpResponse response)
-            throws ClientProtocolException, IOException {
-
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("handleResponse.start");
-        }
-
-        final InputStream inputStream = response.getEntity().getContent();
+    ApiResponse<LineAlertData> handleJsonResponse(final InputStream inputStream) {
 
         final Type apiResponseType = new TypeToken<ApiResponse<LineAlertData>>() {
         }.getType();
+        return KeoUtils.getGsonInstance().fromJson(new InputStreamReader(inputStream),
+                apiResponseType);
 
-        final ApiResponse<LineAlertData> apiResponse = KeoUtils.getGsonInstance().fromJson(
-                new InputStreamReader(inputStream), apiResponseType);
-
-        inputStream.close();
-
-        try {
-            KeoUtils.checkResponse(apiResponse);
-        } catch (final JSONException e) {
-            throw new IOException("Unable to parse the json response received from Keolis:\n" + e);
-        }
-
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("handleResponse.end");
-        }
-        return apiResponse;
     }
-
 }

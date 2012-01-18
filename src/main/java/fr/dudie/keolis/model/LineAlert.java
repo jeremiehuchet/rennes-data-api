@@ -165,7 +165,7 @@ public class LineAlert {
      * 
      * @return a title without line identifiers
      */
-    public String getBetterTitle() {
+    public final String getBetterTitle() {
 
         String betterTitle = title;
         boolean lastTokenNotFound = false;
@@ -191,7 +191,7 @@ public class LineAlert {
      * 
      * @return the lowercased line ids
      */
-    public List<String> getLinesLowercase() {
+    public final List<String> getLinesLowercase() {
 
         final List<String> linesLowercase = new ArrayList<String>(lines.size());
         for (final String line : lines) {

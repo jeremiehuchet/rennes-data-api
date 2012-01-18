@@ -21,6 +21,7 @@ import fr.dudie.keolis.model.LineAlert;
  */
 public final class ListOfLineAlertDeserializer implements JsonDeserializer<List<LineAlert>> {
 
+    /** Gson Instance. */
     private static Gson gsonInstance;
 
     static {

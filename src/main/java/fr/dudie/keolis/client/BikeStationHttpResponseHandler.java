@@ -1,16 +1,8 @@
 package fr.dudie.keolis.client;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.ResponseHandler;
-import org.json.JSONException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -40,45 +32,15 @@ import fr.dudie.keolis.model.BikeData;
  * 
  * @author Jérémie Huchet
  */
-public final class BikeStationHttpResponseHandler implements ResponseHandler<ApiResponse<BikeData>> {
+public final class BikeStationHttpResponseHandler extends JsonResponseHandler<BikeData> {
 
-    /** The event logger. */
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(BikeStationHttpResponseHandler.class);
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.apache.http.client.ResponseHandler#handleResponse(org.apache.http.HttpResponse)
-     */
     @Override
-    public ApiResponse<BikeData> handleResponse(final HttpResponse response)
-            throws ClientProtocolException, IOException {
-
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("handleResponse.start");
-
-        }
+    ApiResponse<BikeData> handleJsonResponse(final InputStream inputStream) {
 
         final Type apiResponseType = new TypeToken<ApiResponse<BikeData>>() {
         }.getType();
+        return KeoUtils.getGsonInstance().fromJson(new InputStreamReader(inputStream),
+                apiResponseType);
 
-        final InputStream inputStream = response.getEntity().getContent();
-
-        final ApiResponse<BikeData> apiResponse = KeoUtils.getGsonInstance().fromJson(
-                new InputStreamReader(inputStream), apiResponseType);
-
-        inputStream.close();
-
-        try {
-            KeoUtils.checkResponse(apiResponse);
-        } catch (final JSONException e) {
-            throw new IOException("Unable to parse the json response received from Keolis:\n" + e);
-        }
-
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("handleResponse.end");
-        }
-        return apiResponse;
     }
 }

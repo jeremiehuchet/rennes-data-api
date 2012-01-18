@@ -45,6 +45,8 @@ public final class KeoUtils {
      * 
      * @param apiResponse
      *            the response of the keolis API
+     * @param <T>
+     *            type of data returned by the API
      * @throws JSONException
      *             the response does not contains valid data
      */
