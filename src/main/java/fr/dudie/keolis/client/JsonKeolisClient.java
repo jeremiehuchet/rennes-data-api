@@ -103,13 +103,7 @@ public class JsonKeolisClient implements KeolisClient {
         req.addHeader(H_ACCEPT, "application/json");
 
         if (LOGGER.isDebugEnabled()) {
-            final StringBuilder msg = new StringBuilder();
-            msg.append(req.getURI().toString()).append("?");
-            for (final NameValuePair param : parameters) {
-                msg.append(param.getName()).append("=").append(param.getValue()).append("&");
-            }
-            msg.deleteCharAt(msg.length() - 1);
-            LOGGER.debug("createKeolisRequest - {}", msg.toString());
+            LOGGER.debug("createKeolisRequest - {}", requestUrl.toString());
         }
 
         return req;

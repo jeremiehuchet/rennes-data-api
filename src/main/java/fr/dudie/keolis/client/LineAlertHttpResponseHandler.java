@@ -79,8 +79,14 @@ public class LineAlertHttpResponseHandler implements ResponseHandler<List<LineAl
                     listAlerts.add(convertJsonObjectToLineAlert(jsonAlerts.optJSONObject(i)));
                 }
             } else {
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("0 relay park found in response");
+                final JSONObject jsonAlert = data.optJSONObject("alert");
+                if (null != jsonAlert) {
+                    listAlerts = new ArrayList<LineAlert>();
+                    listAlerts.add(convertJsonObjectToLineAlert(jsonAlert));
+                } else {
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("0 alert found in response");
+                    }
                 }
             }
         }
