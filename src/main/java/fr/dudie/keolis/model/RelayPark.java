@@ -5,6 +5,21 @@ import java.util.Date;
 /**
  * Represents a relay park.
  * 
+ * <pre>
+ * "relaypark": [
+ *     {
+ *         "name": "La Poterie"
+ *         "latitude": "48.0868139293"
+ *         "longitude": "-1.6434973209"
+ *         "carparkavailable": "249"
+ *         "carparkcapacity": "388"
+ *         "lastupdate": "2011-09-03T18:26:11+02:00"
+ *         "state": "0"
+ *         "distance": "5184.2893316804"
+ *     }
+ * ]
+ * </pre>
+ * 
  * @author Jérémie Huchet
  */
 public class RelayPark {

@@ -5,6 +5,16 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Contains informations to retrieve the icon of a transport line.
  * 
+ * <pre>
+ * "baseurl":"http:\/\/data.keolis-rennes.com\/uploads\/tx_icsinfotrafic\/",
+ * "line":[
+ *   {
+ *     "name":"1",
+ *     "picto":"LM1.png"
+ *   }
+ * ]
+ * </pre>
+ * 
  * @author Jérémie Huchet
  */
 public class LineIcon {

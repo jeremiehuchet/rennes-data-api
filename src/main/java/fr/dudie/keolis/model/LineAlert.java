@@ -10,6 +10,21 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Represents a line alert.
  * 
+ * <pre>
+ * alert: [
+ *     {
+ *         title: "59 marché Corps Nuds"
+ *         starttime: "2010-09-27T09:33:30+02:00"
+ *         endtime: "2012-07-27T00:00:00+02:00"
+ *         lines: {
+ *             line: "59"
+ *         }
+ *         majordisturbance: "0"
+ *         detail: "Le dimanche matin, jusqu'à 14h environ : Marché à Corps Nuds Ligne 59 dans les deux sens L'arrêt Place de Kildare est reporté à l'arrêt Corps Nuds Mairie. Le Star vous remercie de votre compréhension. Pour plus d'information contactez INFOSTAR au 09 70 821 800 (Appel non surtaxé)"
+ *         link: ""
+ *     }
+ * </pre>
+ * 
  * @author Jérémie Huchet
  */
 public class LineAlert {

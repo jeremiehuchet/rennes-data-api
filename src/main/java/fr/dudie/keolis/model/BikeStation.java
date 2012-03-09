@@ -7,6 +7,24 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Bean representing a bike station.
  * 
+ * <pre>
+ * "station":[
+ *    {
+ *       "number":"75",
+ *       "name":"ZAC SAINT SULPICE",
+ *       "address":"RUE DE FOUG\u00c8RES",
+ *       "state":"1",
+ *       "latitude":"48.1321",
+ *       "longitude":"-1.63528",
+ *       "slotsavailable":"29",
+ *       "bikesavailable":"1",
+ *       "pos":"0",
+ *       "district":"Maurepas - Patton",
+ *       "lastupdate":"2010-11-24T00:03:05+01:00"
+ *    }
+ * ]
+ * </pre>
+ * 
  * @author Jérémie Huchet
  */
 public class BikeStation {
