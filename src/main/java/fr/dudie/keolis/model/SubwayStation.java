@@ -2,8 +2,27 @@ package fr.dudie.keolis.model;
 
 import java.util.Date;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Represents a subway station.
+ * 
+ * <pre>
+ * "station":[
+ *    {
+ *       "id":"ANF",
+ *       "name":"Anatole France",
+ *       "latitude":"48.11810000",
+ *       "longitude":"-1.687460000",
+ *       "hasPlatformDirection1":"1",
+ *       "hasPlatformDirection2":"1",
+ *       "rankingPlatformDirection1":"12",
+ *       "rankingPlatformDirection2":"18",
+ *       "floors":"-1",
+ *       "lastupdate":"2010-11-23T23:15:58+01:00"
+ *    }
+ * ]
+ * </pre>
  * 
  * @author Jérémie Huchet
  */
@@ -16,10 +35,10 @@ public class SubwayStation {
     private String name;
 
     /** The latitude of the subway station. */
-    private int latitude;
+    private double latitude;
 
     /** The longitude of the subway station. */
-    private int longitude;
+    private double longitude;
 
     /** Has the platform a direction 1 ? */
     private boolean hasPlatformDirection1;
@@ -31,12 +50,15 @@ public class SubwayStation {
     private int rankingPlatformDirection1;
 
     /** The ranking platform direction 2. */
-    private int rankingPlatformDirection2;
+    // TOBO rankingPlatformDirection2 is a String instead of an int just because json response from
+    // keolis can be an empty String but gson throws a JsonFormatException in this case
+    private String rankingPlatformDirection2;
 
     /** The floors. */
     private int floors;
 
     /** The last update date of these informations. */
+    @SerializedName("lastupdate")
     private Date lastUpdate;
 
     /**
@@ -82,43 +104,43 @@ public class SubwayStation {
     }
 
     /**
-     * Gets the latitude.
+     * Gets the latitude of the station.
      * 
-     * @return the latitude
+     * @return the latitude of the station
      */
-    public final int getLatitude() {
+    public final double getLatitude() {
 
         return latitude;
     }
 
     /**
-     * Sets the latitude.
+     * Sets the latitude of the station.
      * 
      * @param latitude
-     *            the latitude to set
+     *            the latitude of the station to set
      */
-    public final void setLatitude(final int latitude) {
+    public final void setLatitude(final double latitude) {
 
         this.latitude = latitude;
     }
 
     /**
-     * Gets the longitude.
+     * Gets the longitude of the station.
      * 
-     * @return the longitude
+     * @return the longitude of the station
      */
-    public final int getLongitude() {
+    public final double getLongitude() {
 
         return longitude;
     }
 
     /**
-     * Sets the longitude.
+     * Sets the longitude of the station.
      * 
      * @param longitude
-     *            the longitude to set
+     *            the longitude of the station to set
      */
-    public final void setLongitude(final int longitude) {
+    public final void setLongitude(final double longitude) {
 
         this.longitude = longitude;
     }
@@ -191,9 +213,19 @@ public class SubwayStation {
      * 
      * @return the rankingPlatformDirection2
      */
-    public final int getRankingPlatformDirection2() {
+    public final String getRankingPlatformDirection2AsString() {
 
         return rankingPlatformDirection2;
+    }
+
+    /**
+     * Gets the rankingPlatformDirection2.
+     * 
+     * @return the rankingPlatformDirection2
+     */
+    public final int getRankingPlatformDirection2() {
+
+        return Integer.parseInt(rankingPlatformDirection2);
     }
 
     /**
@@ -202,7 +234,7 @@ public class SubwayStation {
      * @param rankingPlatformDirection2
      *            the rankingPlatformDirection2 to set
      */
-    public final void setRankingPlatformDirection2(final int rankingPlatformDirection2) {
+    public final void setRankingPlatformDirection2(final String rankingPlatformDirection2) {
 
         this.rankingPlatformDirection2 = rankingPlatformDirection2;
     }
@@ -255,7 +287,7 @@ public class SubwayStation {
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString() {
+    public final String toString() {
 
         final StringBuilder builder = new StringBuilder();
         builder.append("SubwayStation [id=");

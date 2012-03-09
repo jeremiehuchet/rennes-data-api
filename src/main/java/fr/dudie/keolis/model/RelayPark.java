@@ -5,6 +5,21 @@ import java.util.Date;
 /**
  * Represents a relay park.
  * 
+ * <pre>
+ * "relaypark": [
+ *     {
+ *         "name": "La Poterie"
+ *         "latitude": "48.0868139293"
+ *         "longitude": "-1.6434973209"
+ *         "carparkavailable": "249"
+ *         "carparkcapacity": "388"
+ *         "lastupdate": "2011-09-03T18:26:11+02:00"
+ *         "state": "0"
+ *         "distance": "5184.2893316804"
+ *     }
+ * ]
+ * </pre>
+ * 
  * @author Jérémie Huchet
  */
 public class RelayPark {
@@ -13,10 +28,10 @@ public class RelayPark {
     private String name;
 
     /** The relay park latitude. */
-    private int latitude;
+    private double latitude;
 
     /** The relay park longitude. */
-    private int longitude;
+    private double longitude;
 
     /** The amount of parks available. */
     private int carParkAvailable;
@@ -41,6 +56,66 @@ public class RelayPark {
     }
 
     /**
+     * Gets the latitude.
+     * 
+     * @return the latitude
+     */
+    public final int getLatitude() {
+
+        return (int) (latitude * 1E6);
+    }
+
+    /**
+     * Gets the longitude.
+     * 
+     * @return the longitude
+     */
+    public final int getLongitude() {
+
+        return (int) (longitude * 1E6);
+    }
+
+    /**
+     * Gets the carParkAvailable.
+     * 
+     * @return the carParkAvailable
+     */
+    public final int getCarParkAvailable() {
+
+        return carParkAvailable;
+    }
+
+    /**
+     * Gets the carParkCapacity.
+     * 
+     * @return the carParkCapacity
+     */
+    public final int getCarParkCapacity() {
+
+        return carParkCapacity;
+    }
+
+    /**
+     * Gets the lastUpdate.
+     * 
+     * @return the lastUpdate
+     */
+    public final Date getLastUpdate() {
+
+        return lastUpdate;
+    }
+
+    /**
+     * Gets the state.
+     * 
+     * @return the state
+     */
+    public final RelayParkState getState() {
+
+        return RelayParkState.values()[state];
+    }
+
+    /**
      * Sets the name.
      * 
      * @param name
@@ -52,34 +127,14 @@ public class RelayPark {
     }
 
     /**
-     * Gets the latitude.
-     * 
-     * @return the latitude
-     */
-    public final int getLatitude() {
-
-        return latitude;
-    }
-
-    /**
      * Sets the latitude.
      * 
      * @param latitude
      *            the latitude to set
      */
-    public final void setLatitude(final int latitude) {
+    public final void setLatitude(final double latitude) {
 
         this.latitude = latitude;
-    }
-
-    /**
-     * Gets the longitude.
-     * 
-     * @return the longitude
-     */
-    public final int getLongitude() {
-
-        return longitude;
     }
 
     /**
@@ -88,19 +143,9 @@ public class RelayPark {
      * @param longitude
      *            the longitude to set
      */
-    public final void setLongitude(final int longitude) {
+    public final void setLongitude(final double longitude) {
 
         this.longitude = longitude;
-    }
-
-    /**
-     * Gets the carParkAvailable.
-     * 
-     * @return the carParkAvailable
-     */
-    public final int getCarParkAvailable() {
-
-        return carParkAvailable;
     }
 
     /**
@@ -115,16 +160,6 @@ public class RelayPark {
     }
 
     /**
-     * Gets the carParkCapacity.
-     * 
-     * @return the carParkCapacity
-     */
-    public final int getCarParkCapacity() {
-
-        return carParkCapacity;
-    }
-
-    /**
      * Sets the carParkCapacity.
      * 
      * @param carParkCapacity
@@ -133,16 +168,6 @@ public class RelayPark {
     public final void setCarParkCapacity(final int carParkCapacity) {
 
         this.carParkCapacity = carParkCapacity;
-    }
-
-    /**
-     * Gets the lastUpdate.
-     * 
-     * @return the lastUpdate
-     */
-    public final Date getLastUpdate() {
-
-        return lastUpdate;
     }
 
     /**
@@ -160,7 +185,7 @@ public class RelayPark {
      * Sets the state.
      * 
      * @param state
-     *            the state to set (0: OPEN, 1: CLOSED, 2: FULL, 3: UNAVAILABLE)
+     *            the state to set
      */
     public final void setState(final int state) {
 
@@ -168,13 +193,30 @@ public class RelayPark {
     }
 
     /**
-     * Gets the state.
+     * {@inheritDoc}
      * 
-     * @return the state
+     * @see java.lang.Object#toString()
      */
-    public final RelayParkState getState() {
+    @Override
+    public final String toString() {
 
-        return RelayParkState.values()[state];
+        final StringBuilder builder = new StringBuilder();
+        builder.append("RelayPark [name=");
+        builder.append(name);
+        builder.append(", latitude=");
+        builder.append(latitude);
+        builder.append(", longitude=");
+        builder.append(longitude);
+        builder.append(", carParkAvailable=");
+        builder.append(carParkAvailable);
+        builder.append(", carParkCapacity=");
+        builder.append(carParkCapacity);
+        builder.append(", lastUpdate=");
+        builder.append(lastUpdate);
+        builder.append(", state=");
+        builder.append(state);
+        builder.append("]");
+        return builder.toString();
     }
 
 }

@@ -1,27 +1,37 @@
 package fr.dudie.keolis.client;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.lang.reflect.Type;
+import java.util.List;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
+import fr.dudie.keolis.gson.BikeStationDeserializer;
+import fr.dudie.keolis.gson.LineAlertDataDeserializer;
+import fr.dudie.keolis.gson.SubwayStationDeserializer;
+import fr.dudie.keolis.model.ApiResponse;
+import fr.dudie.keolis.model.BikeStation;
+import fr.dudie.keolis.model.LineAlertData;
+import fr.dudie.keolis.model.StatusAttributes;
+import fr.dudie.keolis.model.SubwayStation;
 
 /**
  * Utilities for Keolis service.
  * 
- * @author Jérémie Huchet
+ * @author Olivier Boudet
  */
 public final class KeoUtils {
 
-    /** The date format the Keolis service use to send. */
-    private static final SimpleDateFormat KEOLIS_DATE_FORMAT = new SimpleDateFormat(
-            "yyyy-MM-dd'T'HH:mm:ssZ");
-
     /** The event logger. */
     private static final Logger LOGGER = LoggerFactory.getLogger(KeoUtils.class);
+
+    /** Gson instance for Keolis api calls. */
+    private static Gson gsonInstance;
 
     /**
      * Private constructor to avoid instantiation.
@@ -33,62 +43,60 @@ public final class KeoUtils {
     /**
      * Checks the response code of the keolis API and return the JSON Object named "data".
      * 
-     * @param reponse
-     *            the reponse of the keolis API
-     * @return the JSON Object named "data"
+     * @param apiResponse
+     *            the response of the keolis API
+     * @param <T>
+     *            type of data returned by the API
      * @throws JSONException
      *             the response does not contains valid data
      */
-    public static JSONObject getServiceResponse(final String reponse) throws JSONException {
+    public static <T> void checkResponse(final ApiResponse<T> apiResponse) throws JSONException {
 
-        final JSONObject jsonResult = new JSONObject(reponse);
+        final StatusAttributes attributes = apiResponse.getOpendata().getAnswer().getStatus()
+                .getAttributes();
 
-        final JSONObject opendata = jsonResult.getJSONObject("opendata");
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("checking response for request : {}", opendata.getString("request"));
+            LOGGER.debug("checking keolis response - code = {}, message = {}",
+                    attributes.getCode(), attributes.getMessage());
         }
-        final JSONObject answer = opendata.getJSONObject("answer");
-        final JSONObject status = answer.getJSONObject("status");
-        final JSONObject attributes = status.getJSONObject("@attributes");
-        final int code = attributes.getInt("code");
-        if (code != 0) {
-            final String message = String.format("Keolis API error : code=%S, %s ", code,
-                    attributes.getString("message"));
+
+        if (attributes.getCode() != 0) {
+            final String message = String.format("Keolis API error : code=%S, %s ",
+                    attributes.getCode(), attributes.getMessage());
             throw new JSONException(message);
         }
-        return answer.optJSONObject("data");
     }
 
     /**
-     * Converts Keolis date string to a {@link Date}.
+     * Gets a gson instance dedicated to Keolis API.
      * 
-     * @param stringDate
-     *            the date as a string ("2010-11-11T20:47:06+01:00")
-     * @return the date
+     * @return the gson instance
      */
-    public static Date convertJsonStringToDate(final String stringDate) {
+    public static Gson getGsonInstance() {
 
-        // transforms the following string : 2011-02-20T00:30:06+01:00
-        // into : 2011-02-20T00:30:06+0100
-        final String d = stringDate.replaceAll("\\:..$",
-                stringDate.substring(stringDate.length() - 2));
+        if (gsonInstance == null) {
+            final GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
-        try {
-            return KEOLIS_DATE_FORMAT.parse(d);
-        } catch (final ParseException e) {
-            throw new IllegalArgumentException(e.getMessage(), e);
+            // type adapter needed just because "data" object in the response can be an array or an
+            // empty string.
+            final Type lineAlertDataType = new TypeToken<LineAlertData>() {
+            }.getType();
+            gsonBuilder.registerTypeAdapter(lineAlertDataType, new LineAlertDataDeserializer());
+
+            final Type listOfSubwayStation = new TypeToken<List<SubwayStation>>() {
+            }.getType();
+            gsonBuilder.registerTypeAdapter(listOfSubwayStation, new SubwayStationDeserializer());
+
+            final Type listOfBikeStation = new TypeToken<List<BikeStation>>() {
+            }.getType();
+
+            gsonBuilder.registerTypeAdapter(listOfBikeStation, new BikeStationDeserializer());
+
+            gsonInstance = gsonBuilder.create();
         }
+
+        return gsonInstance;
     }
 
-    /**
-     * Converts Keolis int status to a {@link Boolean}.
-     * 
-     * @param status
-     *            the status to convert
-     * @return false if the given integer is equals to 0, else true
-     */
-    public static boolean convertJsonIntToBoolean(final int status) {
-
-        return 0 != status;
-    }
 }

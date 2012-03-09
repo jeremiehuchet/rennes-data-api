@@ -1,17 +1,31 @@
 package fr.dudie.keolis.model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Contains informations to retrieve the icon of a transport line.
+ * 
+ * <pre>
+ * "baseurl":"http:\/\/data.keolis-rennes.com\/uploads\/tx_icsinfotrafic\/",
+ * "line":[
+ *   {
+ *     "name":"1",
+ *     "picto":"LM1.png"
+ *   }
+ * ]
+ * </pre>
  * 
  * @author Jérémie Huchet
  */
 public class LineIcon {
 
     /** The line identifier. */
+    @SerializedName("name")
     private String line;
 
-    /** The URL to fetch the icon from. */
-    private String iconUrl;
+    /** The icon's name. */
+    @SerializedName("picto")
+    private String iconName;
 
     /**
      * Gets the line identifier.
@@ -24,10 +38,20 @@ public class LineIcon {
     }
 
     /**
-     * Sets the line identifier.
+     * Gets the icon's name.
+     * 
+     * @return the name of the icon
+     */
+    public final String getIconName() {
+
+        return iconName;
+    }
+
+    /**
+     * Sets the line.
      * 
      * @param line
-     *            the line identifier to set
+     *            the line to set
      */
     public final void setLine(final String line) {
 
@@ -35,24 +59,14 @@ public class LineIcon {
     }
 
     /**
-     * Gets the URL to fetch the icon from.
+     * Sets the iconName.
      * 
-     * @return the URL to fetch the icon from
+     * @param iconName
+     *            the iconName to set
      */
-    public final String getIconUrl() {
+    public final void setIconName(final String iconName) {
 
-        return iconUrl;
-    }
-
-    /**
-     * Sets the URL to fetch the icon from.
-     * 
-     * @param iconUrl
-     *            the URL to fetch the icon to set
-     */
-    public final void setIconUrl(final String iconUrl) {
-
-        this.iconUrl = iconUrl;
+        this.iconName = iconName;
     }
 
     /**
@@ -61,13 +75,13 @@ public class LineIcon {
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString() {
+    public final String toString() {
 
         final StringBuilder builder = new StringBuilder();
         builder.append("LineIcon [line=");
         builder.append(line);
-        builder.append(", iconUrl=");
-        builder.append(iconUrl);
+        builder.append(", iconName=");
+        builder.append(iconName);
         builder.append("]");
         return builder.toString();
     }

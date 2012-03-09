@@ -5,8 +5,25 @@ import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Represents a line alert.
+ * 
+ * <pre>
+ * alert: [
+ *     {
+ *         title: "59 marché Corps Nuds"
+ *         starttime: "2010-09-27T09:33:30+02:00"
+ *         endtime: "2012-07-27T00:00:00+02:00"
+ *         lines: {
+ *             line: "59"
+ *         }
+ *         majordisturbance: "0"
+ *         detail: "Le dimanche matin, jusqu'à 14h environ : Marché à Corps Nuds Ligne 59 dans les deux sens L'arrêt Place de Kildare est reporté à l'arrêt Corps Nuds Mairie. Le Star vous remercie de votre compréhension. Pour plus d'information contactez INFOSTAR au 09 70 821 800 (Appel non surtaxé)"
+ *         link: ""
+ *     }
+ * </pre>
  * 
  * @author Jérémie Huchet
  */
@@ -16,15 +33,19 @@ public class LineAlert {
     private String title;
 
     /** The alert start time. */
+    @SerializedName("starttime")
     private Date startTime;
 
     /** The alert end time. */
+    @SerializedName("endtime")
     private Date endTime;
 
     /** The lines the alert is related to. */
-    private List<String> lines = new ArrayList<String>();
+    @SerializedName("lines")
+    private final List<String> lines = new ArrayList<String>();
 
     /** The major disturbance. */
+    @SerializedName("majordisturbance")
     private String majorDisturbance;
 
     /** The alert details. */
@@ -41,6 +62,56 @@ public class LineAlert {
     }
 
     /**
+     * Gets the startTime.
+     * 
+     * @return the startTime
+     */
+    public final Date getStartTime() {
+
+        return startTime;
+    }
+
+    /**
+     * Gets the endTime.
+     * 
+     * @return the endTime
+     */
+    public final Date getEndTime() {
+
+        return endTime;
+    }
+
+    /**
+     * Gets the lines.
+     * 
+     * @return the lines
+     */
+    public final List<String> getLines() {
+
+        return lines;
+    }
+
+    /**
+     * Gets the majorDisturbance.
+     * 
+     * @return the majorDisturbance
+     */
+    public final String getMajorDisturbance() {
+
+        return majorDisturbance;
+    }
+
+    /**
+     * Gets the detail.
+     * 
+     * @return the detail
+     */
+    public final String getDetail() {
+
+        return detail;
+    }
+
+    /**
      * Sets the title.
      * 
      * @param title
@@ -49,16 +120,6 @@ public class LineAlert {
     public final void setTitle(final String title) {
 
         this.title = title;
-    }
-
-    /**
-     * Gets the startTime.
-     * 
-     * @return the startTime
-     */
-    public final Date getStartTime() {
-
-        return startTime;
     }
 
     /**
@@ -73,16 +134,6 @@ public class LineAlert {
     }
 
     /**
-     * Gets the endTime.
-     * 
-     * @return the endTime
-     */
-    public final Date getEndTime() {
-
-        return endTime;
-    }
-
-    /**
      * Sets the endTime.
      * 
      * @param endTime
@@ -94,55 +145,14 @@ public class LineAlert {
     }
 
     /**
-     * Gets the lines.
-     * 
-     * @return the lines
-     */
-    public final List<String> getLines() {
-
-        return lines;
-    }
-
-    /**
-     * Sets the lines.
-     * 
-     * @param lines
-     *            the lines to set
-     */
-    public final void setLines(final List<String> lines) {
-
-        this.lines = lines;
-    }
-
-    /**
-     * Gets the majorDisturbance.
-     * 
-     * @return the majorDisturbance
-     */
-    public final String getMajorDisturbance() {
-
-        return majorDisturbance;
-    }
-
-    /**
      * Sets the majorDisturbance.
      * 
      * @param majorDisturbance
      *            the majorDisturbance to set
      */
-    public final void setMajorDisturbance(final String majorDisturbance) {
+    public final void getMajorDisturbance(final String majorDisturbance) {
 
         this.majorDisturbance = majorDisturbance;
-    }
-
-    /**
-     * Gets the detail.
-     * 
-     * @return the detail
-     */
-    public final String getDetail() {
-
-        return detail;
     }
 
     /**
@@ -170,7 +180,7 @@ public class LineAlert {
      * 
      * @return a title without line identifiers
      */
-    public String getBetterTitle() {
+    public final String getBetterTitle() {
 
         String betterTitle = title;
         boolean lastTokenNotFound = false;
@@ -196,7 +206,7 @@ public class LineAlert {
      * 
      * @return the lowercased line ids
      */
-    public List<String> getLinesLowercase() {
+    public final List<String> getLinesLowercase() {
 
         final List<String> linesLowercase = new ArrayList<String>(lines.size());
         for (final String line : lines) {
@@ -204,4 +214,30 @@ public class LineAlert {
         }
         return linesLowercase;
     }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public final String toString() {
+
+        final StringBuilder builder = new StringBuilder();
+        builder.append("LineAlert [title=");
+        builder.append(title);
+        builder.append(", startTime=");
+        builder.append(startTime);
+        builder.append(", endTime=");
+        builder.append(endTime);
+        builder.append(", lines=");
+        builder.append(lines);
+        builder.append(", majorDisturbance=");
+        builder.append(majorDisturbance);
+        builder.append(", detail=");
+        builder.append(detail);
+        builder.append("]");
+        return builder.toString();
+    }
+
 }

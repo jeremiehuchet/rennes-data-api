@@ -3,9 +3,6 @@ package fr.dudie.keolis.client;
 import java.io.IOException;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import fr.dudie.keolis.model.BikeStation;
 import fr.dudie.keolis.model.LineAlert;
 import fr.dudie.keolis.model.LineIcon;
@@ -22,7 +19,7 @@ public interface KeolisClient {
     /**
      * Makes a call to the Keolis API to get all bike stations.
      * 
-     * @return a {@link JSONArray} containing all bike stations as {@link JSONObject}s
+     * @return a {@link List} containing all bike stations as {@link BikeStation}s
      * @throws IOException
      *             unable to get a result from the server
      */
@@ -35,7 +32,7 @@ public interface KeolisClient {
      *            the latitude
      * @param longitude
      *            the longitude
-     * @return a {@link JSONArray} containing the 3 bike stations as {@link JSONObject}s
+     * @return a {@link List} containing the 3 bike stations as {@link BikeStation}s
      * @throws IOException
      *             unable to get a result from the server
      */
@@ -133,7 +130,7 @@ public interface KeolisClient {
      *            the line name
      * @return the lines alerts related to the given line
      * @throws IOException
-     * @return the all lines alerts
+     *             unable to get a result from the server
      */
     List<LineAlert> getLinesAlertsForLine(String line) throws IOException;
 }
