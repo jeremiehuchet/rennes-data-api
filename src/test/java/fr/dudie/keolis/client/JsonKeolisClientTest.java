@@ -78,6 +78,38 @@ public final class JsonKeolisClientTest extends AbstractJsonKeolisClientTest {
     }
 
     /**
+     * Test method for {@link JsonKeolisClient#getBikeStationsNearFrom(int, int)}.
+     * 
+     * @throws IOException
+     *             an error occurred
+     */
+    @Test
+    public void testGetBikeStationsNearFrom() throws IOException {
+
+        LOGGER.info("testGetBikeStationsNearFrom.start");
+
+        // search near Rennes, France
+        final List<BikeStation> stations = getKeolisClient().getBikeStationsNearFrom(48109600,
+                -1679200);
+
+        assertNotNull("no bike stations returned by the api", stations);
+        assertEquals("3 bike stations should be returned by the api", 3, stations.size());
+
+        for (final BikeStation station : stations) {
+            LOGGER.debug("checking {}", station);
+            assertFalse(String.format("station [%s] has no id", station),
+                    StringUtils.isEmpty(station.getId()));
+            assertFalse(String.format("station [%s] has no name", station),
+                    StringUtils.isEmpty(station.getName()));
+            assertNotNull(String.format("station [%s] has latitude", station.getLatitude()),
+                    station.getLatitude());
+            assertNotNull(String.format("station [%s] has longitude", station.getLongitude()),
+                    station.getLongitude());
+        }
+        LOGGER.info("testGetBikeStationsNearFrom.start");
+    }
+
+    /**
      * Test method for {@link JsonKeolisClient#getBikeStation(String)}.
      * 
      * @throws IOException
@@ -88,7 +120,7 @@ public final class JsonKeolisClientTest extends AbstractJsonKeolisClientTest {
 
         LOGGER.info("testGetBikeStation.start");
 
-        BikeStation station = getKeolisClient().getBikeStation("1");
+        final BikeStation station = getKeolisClient().getBikeStation("1");
 
         LOGGER.debug("{}", ToStringBuilder.reflectionToString(station));
 
@@ -204,7 +236,7 @@ public final class JsonKeolisClientTest extends AbstractJsonKeolisClientTest {
 
         LOGGER.info("testGetAllSubwayStations.start");
 
-        List<SubwayStation> stations = getKeolisClient().getAllSubwayStations();
+        final List<SubwayStation> stations = getKeolisClient().getAllSubwayStations();
 
         assertNotNull("no subway station returned by the api", stations);
         assertTrue("at least one station should be returned by the api", stations.size() > 0);
@@ -219,6 +251,31 @@ public final class JsonKeolisClientTest extends AbstractJsonKeolisClientTest {
     }
 
     /**
+     * Test method for {@link JsonKeolisClient#getAllSubwayStations()}.
+     * 
+     * @throws IOException
+     *             an error occurred
+     */
+    @Test
+    public void testGetAllSubwayStationsNearFrom() throws IOException {
+
+        LOGGER.info("testGetAllSubwayStationsNearFrom.start");
+
+        // search near Rennes, France
+        final List<SubwayStation> stations = getKeolisClient().getSubwayStationsNearFrom(48109600,
+                -1679200);
+
+        assertNotNull("no subway station returned by the api", stations);
+        assertEquals("3 stations should be returned by the api", 3, stations.size());
+
+        for (final SubwayStation station : stations) {
+            LOGGER.debug("{}", ToStringBuilder.reflectionToString(station));
+        }
+
+        LOGGER.info("testGetAllSubwayStationsNearFrom.end");
+    }
+
+    /**
      * Test method for {@link JsonKeolisClient#getSubwayStation(String)}.
      * 
      * @throws IOException
@@ -229,7 +286,7 @@ public final class JsonKeolisClientTest extends AbstractJsonKeolisClientTest {
 
         LOGGER.info("testGetSubwayStations.start");
 
-        SubwayStation station = getKeolisClient().getSubwayStation("VU");
+        final SubwayStation station = getKeolisClient().getSubwayStation("VU");
 
         LOGGER.debug("{}", ToStringBuilder.reflectionToString(station));
 

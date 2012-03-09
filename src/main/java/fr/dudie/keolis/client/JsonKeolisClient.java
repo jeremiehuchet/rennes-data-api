@@ -2,7 +2,6 @@ package fr.dudie.keolis.client;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
@@ -34,11 +33,8 @@ public class JsonKeolisClient implements KeolisClient {
     /** The HTTP header "Accept". */
     private static final String H_ACCEPT = "Accept";
 
-    /** The keolis API url to use. */
-    private final String keolisApiUrl;
-
-    /** The keolis API key to use. */
-    private final String keolisApiKey;
+    /** The keolis API base URL with key. */
+    private final String baseUrl;
 
     /** The HTTP client. */
     private final HttpClient httpClient;
@@ -71,8 +67,8 @@ public class JsonKeolisClient implements KeolisClient {
     public JsonKeolisClient(final HttpClient httpClient, final String url, final String key) {
 
         this.httpClient = httpClient;
-        keolisApiUrl = url;
-        keolisApiKey = key;
+        // http://api.keolis.net/api?version=2.0&key=AZERTY1234
+        this.baseUrl = String.format("%s?version=%s&key=%s", url, API_VERSION, key);
     }
 
     /**
@@ -89,9 +85,9 @@ public class JsonKeolisClient implements KeolisClient {
             throws UnsupportedEncodingException {
 
         parameters.add(new BasicNameValuePair(Keo.API_VERSION, API_VERSION));
-        parameters.add(new BasicNameValuePair(Keo.API_KEY, keolisApiKey));
+        parameters.add(new BasicNameValuePair(Keo.API_KEY, ""));
 
-        final StringBuilder requestUrl = new StringBuilder(keolisApiUrl);
+        final StringBuilder requestUrl = new StringBuilder("");
         requestUrl.append('?');
         for (final NameValuePair param : parameters) {
             requestUrl.append('&').append(param.getName());
@@ -118,14 +114,17 @@ public class JsonKeolisClient implements KeolisClient {
     @Override
     public final List<BikeStation> getAllBikeStations() throws IOException {
 
-        final List<NameValuePair> params = new ArrayList<NameValuePair>(5);
-        params.add(new BasicNameValuePair(Keo.Network.PARAM_NAME, Keo.Network.VALUE_LE_VELO_STAR));
-        params.add(new BasicNameValuePair(Keo.Command.PARAM_NAME, Keo.Command.GET_BIKE_STATIONS));
-        params.add(new BasicNameValuePair(Keo.GetBikeStations.PARAM_STATION,
-                Keo.GetBikeStations.VALUE_STATION_ALL));
+        final StringBuilder requestUrl = new StringBuilder(baseUrl);
+        requestUrl.append("&param[network]=levelostar");
+        requestUrl.append("&cmd=getbikestations");
+        requestUrl.append("&param[station]=all");
 
-        return httpClient.execute(createKeolisRequest(params), defaultBikeStationHandler)
-                .getOpendata().getAnswer().getData().getStations();
+        final HttpGet get = new HttpGet(requestUrl.toString());
+        get.addHeader(H_ACCEPT, "text/json");
+        get.addHeader(H_ACCEPT, "application/json");
+
+        return httpClient.execute(get, defaultBikeStationHandler).getOpendata().getAnswer()
+                .getData().getStations();
 
     }
 
@@ -138,20 +137,20 @@ public class JsonKeolisClient implements KeolisClient {
     public final List<BikeStation> getBikeStationsNearFrom(final int latitude, final int longitude)
             throws IOException {
 
-        final List<NameValuePair> params = new ArrayList<NameValuePair>(8);
-        params.add(new BasicNameValuePair(Keo.Network.PARAM_NAME, Keo.Network.VALUE_LE_VELO_STAR));
-        params.add(new BasicNameValuePair(Keo.Command.PARAM_NAME, Keo.Command.GET_BIKE_STATIONS));
-        params.add(new BasicNameValuePair(Keo.GetBikeStations.PARAM_STATION,
-                Keo.GetBikeStations.VALUE_STATION_PROXIMITY));
-        params.add(new BasicNameValuePair(Keo.GetBikeStations.PARAM_MODE,
-                Keo.GetBikeStations.VALUE_MODE_COORDINATES));
-        params.add(new BasicNameValuePair(Keo.GetBikeStations.PARAM_LATITUDE, String
-                .valueOf(latitude)));
-        params.add(new BasicNameValuePair(Keo.GetBikeStations.PARAM_LONGITUDE, String
-                .valueOf(longitude)));
+        final StringBuilder requestUrl = new StringBuilder(baseUrl);
+        requestUrl.append("&param[network]=levelostar");
+        requestUrl.append("&cmd=getbikestations");
+        requestUrl.append("&param[station]=proximity");
+        requestUrl.append("&param[mode]=coord");
+        requestUrl.append("&param[lat]=").append(latitude);
+        requestUrl.append("&param[long]=").append(longitude);
 
-        return httpClient.execute(createKeolisRequest(params), defaultBikeStationHandler)
-                .getOpendata().getAnswer().getData().getStations();
+        final HttpGet get = new HttpGet(requestUrl.toString());
+        get.addHeader(H_ACCEPT, "text/json");
+        get.addHeader(H_ACCEPT, "application/json");
+
+        return httpClient.execute(get, defaultBikeStationHandler).getOpendata().getAnswer()
+                .getData().getStations();
 
     }
 
@@ -163,15 +162,18 @@ public class JsonKeolisClient implements KeolisClient {
     @Override
     public final BikeStation getBikeStation(final String id) throws IOException {
 
-        final List<NameValuePair> params = new ArrayList<NameValuePair>(6);
-        params.add(new BasicNameValuePair(Keo.Network.PARAM_NAME, Keo.Network.VALUE_LE_VELO_STAR));
-        params.add(new BasicNameValuePair(Keo.Command.PARAM_NAME, Keo.Command.GET_BIKE_STATIONS));
-        params.add(new BasicNameValuePair(Keo.GetBikeStations.PARAM_STATION,
-                Keo.GetBikeStations.VALUE_STATION_IDENTIFIER));
-        params.add(new BasicNameValuePair(Keo.GetBikeStations.PARAM_VALUE, id));
+        final StringBuilder requestUrl = new StringBuilder(baseUrl);
+        requestUrl.append("&param[network]=levelostar");
+        requestUrl.append("&cmd=getbikestations");
+        requestUrl.append("&param[station]=number");
+        requestUrl.append("&param[value]=").append(id);
 
-        return httpClient.execute(createKeolisRequest(params), defaultBikeStationHandler)
-                .getOpendata().getAnswer().getData().getStations().get(0);
+        final HttpGet get = new HttpGet(requestUrl.toString());
+        get.addHeader(H_ACCEPT, "text/json");
+        get.addHeader(H_ACCEPT, "application/json");
+
+        return httpClient.execute(get, defaultBikeStationHandler).getOpendata().getAnswer()
+                .getData().getStations().get(0);
 
     }
 
@@ -183,14 +185,17 @@ public class JsonKeolisClient implements KeolisClient {
     @Override
     public final List<SubwayStation> getAllSubwayStations() throws IOException {
 
-        final List<NameValuePair> params = new ArrayList<NameValuePair>(5);
-        params.add(new BasicNameValuePair(Keo.Network.PARAM_NAME, Keo.Network.VALUE_STAR));
-        params.add(new BasicNameValuePair(Keo.Command.PARAM_NAME, Keo.Command.GET_METRO_STATIONS));
-        params.add(new BasicNameValuePair(Keo.GetSubwayStations.PARAM_MODE,
-                Keo.GetSubwayStations.VALUE_MODE_ALL));
+        final StringBuilder requestUrl = new StringBuilder(baseUrl);
+        requestUrl.append("&param[network]=star");
+        requestUrl.append("&cmd=getmetrostations");
+        requestUrl.append("&param[mode]=all");
 
-        return httpClient.execute(createKeolisRequest(params), defaultSubwayStationHandler)
-                .getOpendata().getAnswer().getData().getStations();
+        final HttpGet get = new HttpGet(requestUrl.toString());
+        get.addHeader(H_ACCEPT, "text/json");
+        get.addHeader(H_ACCEPT, "application/json");
+
+        return httpClient.execute(get, defaultSubwayStationHandler).getOpendata().getAnswer()
+                .getData().getStations();
 
     }
 
@@ -203,20 +208,20 @@ public class JsonKeolisClient implements KeolisClient {
     public final List<SubwayStation> getSubwayStationsNearFrom(final int latitude,
             final int longitude) throws IOException {
 
-        final List<NameValuePair> params = new ArrayList<NameValuePair>(8);
-        params.add(new BasicNameValuePair(Keo.Network.PARAM_NAME, Keo.Network.VALUE_STAR));
-        params.add(new BasicNameValuePair(Keo.Command.PARAM_NAME, Keo.Command.GET_METRO_STATIONS));
-        params.add(new BasicNameValuePair(Keo.GetSubwayStations.PARAM_MODE,
-                Keo.GetSubwayStations.VALUE_MODE_PROXIMITY));
-        params.add(new BasicNameValuePair(Keo.GetSubwayStations.PARAM_PROXIMITY_TYPE,
-                Keo.GetSubwayStations.VALUE_PROXIMITY_TYPE_COORDINATES));
-        params.add(new BasicNameValuePair(Keo.GetSubwayStations.PARAM_LATITUDE, String
-                .valueOf(latitude)));
-        params.add(new BasicNameValuePair(Keo.GetSubwayStations.PARAM_LONGITUDE, String
-                .valueOf(longitude)));
+        final StringBuilder requestUrl = new StringBuilder(baseUrl);
+        requestUrl.append("&param[network]=star");
+        requestUrl.append("&cmd=getmetrostations");
+        requestUrl.append("&param[mode]=proximity");
+        requestUrl.append("&param[type]=coords");
+        requestUrl.append("&param[lat]=").append(latitude);
+        requestUrl.append("&param[lng]=").append(longitude);
 
-        return httpClient.execute(createKeolisRequest(params), defaultSubwayStationHandler)
-                .getOpendata().getAnswer().getData().getStations();
+        final HttpGet get = new HttpGet(requestUrl.toString());
+        get.addHeader(H_ACCEPT, "text/json");
+        get.addHeader(H_ACCEPT, "application/json");
+
+        return httpClient.execute(get, defaultSubwayStationHandler).getOpendata().getAnswer()
+                .getData().getStations();
 
     }
 
@@ -228,15 +233,18 @@ public class JsonKeolisClient implements KeolisClient {
     @Override
     public final SubwayStation getSubwayStation(final String id) throws IOException {
 
-        final List<NameValuePair> params = new ArrayList<NameValuePair>(6);
-        params.add(new BasicNameValuePair(Keo.Network.PARAM_NAME, Keo.Network.VALUE_STAR));
-        params.add(new BasicNameValuePair(Keo.Command.PARAM_NAME, Keo.Command.GET_METRO_STATIONS));
-        params.add(new BasicNameValuePair(Keo.GetSubwayStations.PARAM_MODE,
-                Keo.GetSubwayStations.VALUE_MODE_STATION));
-        params.add(new BasicNameValuePair(Keo.GetSubwayStations.PARAM_STATION_IDENTIFIER, id));
+        final StringBuilder requestUrl = new StringBuilder(baseUrl);
+        requestUrl.append("&param[network]=star");
+        requestUrl.append("&cmd=getmetrostations");
+        requestUrl.append("&param[mode]=station");
+        requestUrl.append("&param[station]=").append(id);
 
-        return httpClient.execute(createKeolisRequest(params), defaultSubwayStationHandler)
-                .getOpendata().getAnswer().getData().getStations().get(0);
+        final HttpGet get = new HttpGet(requestUrl.toString());
+        get.addHeader(H_ACCEPT, "text/json");
+        get.addHeader(H_ACCEPT, "application/json");
+
+        return httpClient.execute(get, defaultSubwayStationHandler).getOpendata().getAnswer()
+                .getData().getStations().get(0);
 
     }
 
@@ -248,14 +256,17 @@ public class JsonKeolisClient implements KeolisClient {
     @Override
     public final List<LineIcon> getAllLineIcons() throws IOException {
 
-        final List<NameValuePair> params = new ArrayList<NameValuePair>(4);
-        params.add(new BasicNameValuePair(Keo.Network.PARAM_NAME, Keo.Network.VALUE_STAR));
-        params.add(new BasicNameValuePair(Keo.Command.PARAM_NAME, Keo.Command.GET_LINES_ICONS));
-        params.add(new BasicNameValuePair(Keo.GetLinesIcons.PARAM_MODE,
-                Keo.GetLinesIcons.VALUE_MODE_ALL));
+        final StringBuilder requestUrl = new StringBuilder(baseUrl);
+        requestUrl.append("&param[network]=star");
+        requestUrl.append("&cmd=getlines");
+        requestUrl.append("&param[mode]=all");
 
-        return httpClient.execute(createKeolisRequest(params), defaultLineIconHandler)
-                .getOpendata().getAnswer().getData().getLines();
+        final HttpGet get = new HttpGet(requestUrl.toString());
+        get.addHeader(H_ACCEPT, "text/json");
+        get.addHeader(H_ACCEPT, "application/json");
+
+        return httpClient.execute(get, defaultLineIconHandler).getOpendata().getAnswer().getData()
+                .getLines();
 
     }
 
@@ -267,12 +278,16 @@ public class JsonKeolisClient implements KeolisClient {
     @Override
     public final List<RelayPark> getAllRelayParks() throws IOException {
 
-        final List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair(Keo.Network.PARAM_NAME, Keo.Network.VALUE_STAR));
-        params.add(new BasicNameValuePair(Keo.Command.PARAM_NAME, Keo.Command.GET_RELAY_PARKS));
+        final StringBuilder requestUrl = new StringBuilder(baseUrl);
+        requestUrl.append("&param[network]=star");
+        requestUrl.append("&cmd=getrelayparks");
 
-        return httpClient.execute(createKeolisRequest(params), defaultRelayParkHandler)
-                .getOpendata().getAnswer().getData().getRelayParks();
+        final HttpGet get = new HttpGet(requestUrl.toString());
+        get.addHeader(H_ACCEPT, "text/json");
+        get.addHeader(H_ACCEPT, "application/json");
+
+        return httpClient.execute(get, defaultRelayParkHandler).getOpendata().getAnswer().getData()
+                .getRelayParks();
 
     }
 
@@ -285,17 +300,18 @@ public class JsonKeolisClient implements KeolisClient {
     public final List<RelayPark> getRelayParksNearFrom(final int latitude, final int longitude)
             throws IOException {
 
-        final List<NameValuePair> params = new ArrayList<NameValuePair>(6);
-        params.add(new BasicNameValuePair(Keo.Network.PARAM_NAME, Keo.Network.VALUE_STAR));
-        params.add(new BasicNameValuePair(Keo.Command.PARAM_NAME, Keo.Command.GET_RELAY_PARKS));
+        final StringBuilder requestUrl = new StringBuilder(baseUrl);
+        requestUrl.append("&param[network]=star");
+        requestUrl.append("&cmd=getrelayparks");
+        requestUrl.append("&param[latitude]=").append(latitude);
+        requestUrl.append("&param[longitude]=").append(longitude);
 
-        params.add(new BasicNameValuePair(Keo.GetRelayParks.PARAM_LATITUDE, String
-                .valueOf(latitude)));
-        params.add(new BasicNameValuePair(Keo.GetRelayParks.PARAM_LONGITUDE, String
-                .valueOf(longitude)));
+        final HttpGet get = new HttpGet(requestUrl.toString());
+        get.addHeader(H_ACCEPT, "text/json");
+        get.addHeader(H_ACCEPT, "application/json");
 
-        return httpClient.execute(createKeolisRequest(params), defaultRelayParkHandler)
-                .getOpendata().getAnswer().getData().getRelayParks();
+        return httpClient.execute(get, defaultRelayParkHandler).getOpendata().getAnswer().getData()
+                .getRelayParks();
 
     }
 
@@ -307,15 +323,17 @@ public class JsonKeolisClient implements KeolisClient {
     @Override
     public final List<LineAlert> getAllLinesAlerts() throws IOException {
 
-        final List<NameValuePair> params = new ArrayList<NameValuePair>(5);
-        params.add(new BasicNameValuePair(Keo.Network.PARAM_NAME, Keo.Network.VALUE_STAR));
-        params.add(new BasicNameValuePair(Keo.Command.PARAM_NAME, Keo.Command.GET_LINES_ALERTS));
+        final StringBuilder requestUrl = new StringBuilder(baseUrl);
+        requestUrl.append("&param[network]=star");
+        requestUrl.append("&cmd=getlinesalerts");
+        requestUrl.append("&param[mode]=all");
 
-        params.add(new BasicNameValuePair(Keo.GetLinesAlerts.PARAM_MODE,
-                Keo.GetLinesAlerts.VALUE_MODE_ALL));
+        final HttpGet get = new HttpGet(requestUrl.toString());
+        get.addHeader(H_ACCEPT, "text/json");
+        get.addHeader(H_ACCEPT, "application/json");
 
-        return httpClient.execute(createKeolisRequest(params), defaultLineAlertHandler)
-                .getOpendata().getAnswer().getData().getAlerts();
+        return httpClient.execute(get, defaultLineAlertHandler).getOpendata().getAnswer().getData()
+                .getAlerts();
 
     }
 
@@ -327,16 +345,18 @@ public class JsonKeolisClient implements KeolisClient {
     @Override
     public final List<LineAlert> getLinesAlertsForLine(final String line) throws IOException {
 
-        final List<NameValuePair> params = new ArrayList<NameValuePair>(6);
-        params.add(new BasicNameValuePair(Keo.Network.PARAM_NAME, Keo.Network.VALUE_STAR));
-        params.add(new BasicNameValuePair(Keo.Command.PARAM_NAME, Keo.Command.GET_LINES_ALERTS));
+        final StringBuilder requestUrl = new StringBuilder(baseUrl);
+        requestUrl.append("&param[network]=star");
+        requestUrl.append("&cmd=getlinesalerts");
+        requestUrl.append("&param[mode]=line");
+        requestUrl.append("&param[line]=").append(line);
 
-        params.add(new BasicNameValuePair(Keo.GetLinesAlerts.PARAM_MODE,
-                Keo.GetLinesAlerts.VALUE_MODE_LINE));
-        params.add(new BasicNameValuePair(Keo.GetLinesAlerts.PARAM_LINE, line));
+        final HttpGet get = new HttpGet(requestUrl.toString());
+        get.addHeader(H_ACCEPT, "text/json");
+        get.addHeader(H_ACCEPT, "application/json");
 
-        return httpClient.execute(createKeolisRequest(params), defaultLineAlertHandler)
-                .getOpendata().getAnswer().getData().getAlerts();
+        return httpClient.execute(get, defaultLineAlertHandler).getOpendata().getAnswer().getData()
+                .getAlerts();
 
     }
 }
