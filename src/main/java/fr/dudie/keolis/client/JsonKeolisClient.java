@@ -1,13 +1,10 @@
 package fr.dudie.keolis.client;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,45 +69,10 @@ public class JsonKeolisClient implements KeolisClient {
     }
 
     /**
-     * Creates a generic request to the Keolis API. This method will set the request headers, the
-     * version and the API key needed to send a request to Keolis.
+     * {@inheritDoc}
      * 
-     * @param parameters
-     *            the request parameters
-     * @return an {@link HttpGet} to send to execute the request
-     * @throws UnsupportedEncodingException
-     *             unable to encode request parameters
+     * @see fr.dudie.keolis.client.KeolisClient#getAllBikeStations()
      */
-    private HttpGet createKeolisRequest(final List<NameValuePair> parameters)
-            throws UnsupportedEncodingException {
-
-        parameters.add(new BasicNameValuePair(Keo.API_VERSION, API_VERSION));
-        parameters.add(new BasicNameValuePair(Keo.API_KEY, ""));
-
-        final StringBuilder requestUrl = new StringBuilder("");
-        requestUrl.append('?');
-        for (final NameValuePair param : parameters) {
-            requestUrl.append('&').append(param.getName());
-            requestUrl.append('=').append(param.getValue());
-        }
-
-        final HttpGet req = new HttpGet(requestUrl.toString());
-        req.addHeader(H_ACCEPT, "text/json");
-        req.addHeader(H_ACCEPT, "application/json");
-
-        if (LOGGER.isDebugEnabled()) {
-            final StringBuilder msg = new StringBuilder();
-            msg.append(req.getURI().toString()).append("?");
-            for (final NameValuePair param : parameters) {
-                msg.append(param.getName()).append("=").append(param.getValue()).append("&");
-            }
-            msg.deleteCharAt(msg.length() - 1);
-            LOGGER.debug("createKeolisRequest - {}", msg.toString());
-        }
-
-        return req;
-    }
-
     @Override
     public final List<BikeStation> getAllBikeStations() throws IOException {
 
