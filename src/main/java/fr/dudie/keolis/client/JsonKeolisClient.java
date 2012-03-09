@@ -78,6 +78,8 @@ public class JsonKeolisClient implements KeolisClient {
         requestUrl.append("&cmd=getbikestations");
         requestUrl.append("&param[station]=all");
 
+        LOGGER.debug("request url: {}", requestUrl);
+
         return httpClient.execute(new HttpGet(requestUrl.toString()), defaultBikeStationHandler)
                 .getOpendata().getAnswer().getData().getStations();
 
@@ -100,6 +102,8 @@ public class JsonKeolisClient implements KeolisClient {
         requestUrl.append("&param[lat]=").append(latitude);
         requestUrl.append("&param[long]=").append(longitude);
 
+        LOGGER.debug("request url: {}", requestUrl);
+
         return httpClient.execute(new HttpGet(requestUrl.toString()), defaultBikeStationHandler)
                 .getOpendata().getAnswer().getData().getStations();
 
@@ -119,6 +123,8 @@ public class JsonKeolisClient implements KeolisClient {
         requestUrl.append("&param[station]=number");
         requestUrl.append("&param[value]=").append(id);
 
+        LOGGER.debug("request url: {}", requestUrl);
+
         return httpClient.execute(new HttpGet(requestUrl.toString()), defaultBikeStationHandler)
                 .getOpendata().getAnswer().getData().getStations().get(0);
 
@@ -136,6 +142,8 @@ public class JsonKeolisClient implements KeolisClient {
         requestUrl.append("&param[network]=star");
         requestUrl.append("&cmd=getmetrostations");
         requestUrl.append("&param[mode]=all");
+
+        LOGGER.debug("request url: {}", requestUrl);
 
         return httpClient.execute(new HttpGet(requestUrl.toString()), defaultSubwayStationHandler)
                 .getOpendata().getAnswer().getData().getStations();
@@ -159,6 +167,8 @@ public class JsonKeolisClient implements KeolisClient {
         requestUrl.append("&param[lat]=").append(latitude);
         requestUrl.append("&param[lng]=").append(longitude);
 
+        LOGGER.debug("request url: {}", requestUrl);
+
         return httpClient.execute(new HttpGet(requestUrl.toString()), defaultSubwayStationHandler)
                 .getOpendata().getAnswer().getData().getStations();
 
@@ -178,6 +188,8 @@ public class JsonKeolisClient implements KeolisClient {
         requestUrl.append("&param[mode]=station");
         requestUrl.append("&param[station]=").append(id);
 
+        LOGGER.debug("request url: {}", requestUrl);
+
         return httpClient.execute(new HttpGet(requestUrl.toString()), defaultSubwayStationHandler)
                 .getOpendata().getAnswer().getData().getStations().get(0);
 
@@ -196,6 +208,8 @@ public class JsonKeolisClient implements KeolisClient {
         requestUrl.append("&cmd=getlines");
         requestUrl.append("&param[mode]=all");
 
+        LOGGER.debug("request url: {}", requestUrl);
+
         return httpClient.execute(new HttpGet(requestUrl.toString()), defaultLineIconHandler)
                 .getOpendata().getAnswer().getData().getLines();
 
@@ -212,6 +226,8 @@ public class JsonKeolisClient implements KeolisClient {
         final StringBuilder requestUrl = new StringBuilder(baseUrl);
         requestUrl.append("&param[network]=star");
         requestUrl.append("&cmd=getrelayparks");
+
+        LOGGER.debug("request url: {}", requestUrl);
 
         return httpClient.execute(new HttpGet(requestUrl.toString()), defaultRelayParkHandler)
                 .getOpendata().getAnswer().getData().getRelayParks();
@@ -233,6 +249,8 @@ public class JsonKeolisClient implements KeolisClient {
         requestUrl.append("&param[latitude]=").append(latitude);
         requestUrl.append("&param[longitude]=").append(longitude);
 
+        LOGGER.debug("request url: {}", requestUrl);
+
         return httpClient.execute(new HttpGet(requestUrl.toString()), defaultRelayParkHandler)
                 .getOpendata().getAnswer().getData().getRelayParks();
 
@@ -250,6 +268,8 @@ public class JsonKeolisClient implements KeolisClient {
         requestUrl.append("&param[network]=star");
         requestUrl.append("&cmd=getlinesalerts");
         requestUrl.append("&param[mode]=all");
+
+        LOGGER.debug("request url: {}", requestUrl);
 
         return httpClient.execute(new HttpGet(requestUrl.toString()), defaultLineAlertHandler)
                 .getOpendata().getAnswer().getData().getAlerts();
@@ -269,6 +289,8 @@ public class JsonKeolisClient implements KeolisClient {
         requestUrl.append("&cmd=getlinesalerts");
         requestUrl.append("&param[mode]=line");
         requestUrl.append("&param[line]=").append(line);
+
+        LOGGER.debug("request url: {}", requestUrl);
 
         return httpClient.execute(new HttpGet(requestUrl.toString()), defaultLineAlertHandler)
                 .getOpendata().getAnswer().getData().getAlerts();
