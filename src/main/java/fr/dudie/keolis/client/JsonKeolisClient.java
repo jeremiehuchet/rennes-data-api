@@ -27,9 +27,6 @@ public class JsonKeolisClient implements KeolisClient {
     /** The Keolis API version this client use. */
     private static final String API_VERSION = "2.0";
 
-    /** The HTTP header "Accept". */
-    private static final String H_ACCEPT = "Accept";
-
     /** The keolis API base URL with key. */
     private final String baseUrl;
 
@@ -81,12 +78,8 @@ public class JsonKeolisClient implements KeolisClient {
         requestUrl.append("&cmd=getbikestations");
         requestUrl.append("&param[station]=all");
 
-        final HttpGet get = new HttpGet(requestUrl.toString());
-        get.addHeader(H_ACCEPT, "text/json");
-        get.addHeader(H_ACCEPT, "application/json");
-
-        return httpClient.execute(get, defaultBikeStationHandler).getOpendata().getAnswer()
-                .getData().getStations();
+        return httpClient.execute(new HttpGet(requestUrl.toString()), defaultBikeStationHandler)
+                .getOpendata().getAnswer().getData().getStations();
 
     }
 
@@ -107,12 +100,8 @@ public class JsonKeolisClient implements KeolisClient {
         requestUrl.append("&param[lat]=").append(latitude);
         requestUrl.append("&param[long]=").append(longitude);
 
-        final HttpGet get = new HttpGet(requestUrl.toString());
-        get.addHeader(H_ACCEPT, "text/json");
-        get.addHeader(H_ACCEPT, "application/json");
-
-        return httpClient.execute(get, defaultBikeStationHandler).getOpendata().getAnswer()
-                .getData().getStations();
+        return httpClient.execute(new HttpGet(requestUrl.toString()), defaultBikeStationHandler)
+                .getOpendata().getAnswer().getData().getStations();
 
     }
 
@@ -130,12 +119,8 @@ public class JsonKeolisClient implements KeolisClient {
         requestUrl.append("&param[station]=number");
         requestUrl.append("&param[value]=").append(id);
 
-        final HttpGet get = new HttpGet(requestUrl.toString());
-        get.addHeader(H_ACCEPT, "text/json");
-        get.addHeader(H_ACCEPT, "application/json");
-
-        return httpClient.execute(get, defaultBikeStationHandler).getOpendata().getAnswer()
-                .getData().getStations().get(0);
+        return httpClient.execute(new HttpGet(requestUrl.toString()), defaultBikeStationHandler)
+                .getOpendata().getAnswer().getData().getStations().get(0);
 
     }
 
@@ -152,12 +137,8 @@ public class JsonKeolisClient implements KeolisClient {
         requestUrl.append("&cmd=getmetrostations");
         requestUrl.append("&param[mode]=all");
 
-        final HttpGet get = new HttpGet(requestUrl.toString());
-        get.addHeader(H_ACCEPT, "text/json");
-        get.addHeader(H_ACCEPT, "application/json");
-
-        return httpClient.execute(get, defaultSubwayStationHandler).getOpendata().getAnswer()
-                .getData().getStations();
+        return httpClient.execute(new HttpGet(requestUrl.toString()), defaultSubwayStationHandler)
+                .getOpendata().getAnswer().getData().getStations();
 
     }
 
@@ -178,12 +159,8 @@ public class JsonKeolisClient implements KeolisClient {
         requestUrl.append("&param[lat]=").append(latitude);
         requestUrl.append("&param[lng]=").append(longitude);
 
-        final HttpGet get = new HttpGet(requestUrl.toString());
-        get.addHeader(H_ACCEPT, "text/json");
-        get.addHeader(H_ACCEPT, "application/json");
-
-        return httpClient.execute(get, defaultSubwayStationHandler).getOpendata().getAnswer()
-                .getData().getStations();
+        return httpClient.execute(new HttpGet(requestUrl.toString()), defaultSubwayStationHandler)
+                .getOpendata().getAnswer().getData().getStations();
 
     }
 
@@ -201,12 +178,8 @@ public class JsonKeolisClient implements KeolisClient {
         requestUrl.append("&param[mode]=station");
         requestUrl.append("&param[station]=").append(id);
 
-        final HttpGet get = new HttpGet(requestUrl.toString());
-        get.addHeader(H_ACCEPT, "text/json");
-        get.addHeader(H_ACCEPT, "application/json");
-
-        return httpClient.execute(get, defaultSubwayStationHandler).getOpendata().getAnswer()
-                .getData().getStations().get(0);
+        return httpClient.execute(new HttpGet(requestUrl.toString()), defaultSubwayStationHandler)
+                .getOpendata().getAnswer().getData().getStations().get(0);
 
     }
 
@@ -223,12 +196,8 @@ public class JsonKeolisClient implements KeolisClient {
         requestUrl.append("&cmd=getlines");
         requestUrl.append("&param[mode]=all");
 
-        final HttpGet get = new HttpGet(requestUrl.toString());
-        get.addHeader(H_ACCEPT, "text/json");
-        get.addHeader(H_ACCEPT, "application/json");
-
-        return httpClient.execute(get, defaultLineIconHandler).getOpendata().getAnswer().getData()
-                .getLines();
+        return httpClient.execute(new HttpGet(requestUrl.toString()), defaultLineIconHandler)
+                .getOpendata().getAnswer().getData().getLines();
 
     }
 
@@ -244,12 +213,8 @@ public class JsonKeolisClient implements KeolisClient {
         requestUrl.append("&param[network]=star");
         requestUrl.append("&cmd=getrelayparks");
 
-        final HttpGet get = new HttpGet(requestUrl.toString());
-        get.addHeader(H_ACCEPT, "text/json");
-        get.addHeader(H_ACCEPT, "application/json");
-
-        return httpClient.execute(get, defaultRelayParkHandler).getOpendata().getAnswer().getData()
-                .getRelayParks();
+        return httpClient.execute(new HttpGet(requestUrl.toString()), defaultRelayParkHandler)
+                .getOpendata().getAnswer().getData().getRelayParks();
 
     }
 
@@ -268,12 +233,8 @@ public class JsonKeolisClient implements KeolisClient {
         requestUrl.append("&param[latitude]=").append(latitude);
         requestUrl.append("&param[longitude]=").append(longitude);
 
-        final HttpGet get = new HttpGet(requestUrl.toString());
-        get.addHeader(H_ACCEPT, "text/json");
-        get.addHeader(H_ACCEPT, "application/json");
-
-        return httpClient.execute(get, defaultRelayParkHandler).getOpendata().getAnswer().getData()
-                .getRelayParks();
+        return httpClient.execute(new HttpGet(requestUrl.toString()), defaultRelayParkHandler)
+                .getOpendata().getAnswer().getData().getRelayParks();
 
     }
 
@@ -290,12 +251,8 @@ public class JsonKeolisClient implements KeolisClient {
         requestUrl.append("&cmd=getlinesalerts");
         requestUrl.append("&param[mode]=all");
 
-        final HttpGet get = new HttpGet(requestUrl.toString());
-        get.addHeader(H_ACCEPT, "text/json");
-        get.addHeader(H_ACCEPT, "application/json");
-
-        return httpClient.execute(get, defaultLineAlertHandler).getOpendata().getAnswer().getData()
-                .getAlerts();
+        return httpClient.execute(new HttpGet(requestUrl.toString()), defaultLineAlertHandler)
+                .getOpendata().getAnswer().getData().getAlerts();
 
     }
 
@@ -313,12 +270,8 @@ public class JsonKeolisClient implements KeolisClient {
         requestUrl.append("&param[mode]=line");
         requestUrl.append("&param[line]=").append(line);
 
-        final HttpGet get = new HttpGet(requestUrl.toString());
-        get.addHeader(H_ACCEPT, "text/json");
-        get.addHeader(H_ACCEPT, "application/json");
-
-        return httpClient.execute(get, defaultLineAlertHandler).getOpendata().getAnswer().getData()
-                .getAlerts();
+        return httpClient.execute(new HttpGet(requestUrl.toString()), defaultLineAlertHandler)
+                .getOpendata().getAnswer().getData().getAlerts();
 
     }
 }
