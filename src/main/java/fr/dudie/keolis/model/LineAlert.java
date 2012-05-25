@@ -198,7 +198,7 @@ public class LineAlert {
      */
     public final String getBetterTitle() {
 
-        String betterTitle = title;
+        String betterTitle = title == null ? "" : title;
         boolean lastTokenNotFound = false;
         final List<String> lowercaseLines = getLinesLowercase();
         final StringTokenizer stk = new StringTokenizer(title, " ");
@@ -214,7 +214,11 @@ public class LineAlert {
                 lastTokenNotFound = true;
             }
         }
-        return betterTitle.substring(0, 1).toUpperCase() + betterTitle.substring(1);
+        if (betterTitle.length() > 0) {
+            return betterTitle.substring(0, 1).toUpperCase() + betterTitle.substring(1);
+        } else {
+            return "";
+        }
     }
 
     /**
