@@ -19,12 +19,12 @@ package fr.dudie.keolis.client;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 
 import fr.dudie.keolis.gson.BikeStationDeserializer;
@@ -66,7 +66,7 @@ public final class KeoUtils {
      * @throws JSONException
      *             the response does not contains valid data
      */
-    public static <T> void checkResponse(final ApiResponse<T> apiResponse) throws JSONException {
+    public static <T> void checkResponse(final ApiResponse<T> apiResponse) throws JsonParseException {
 
         final StatusAttributes attributes = apiResponse.getOpendata().getAnswer().getStatus()
                 .getAttributes();
@@ -79,7 +79,7 @@ public final class KeoUtils {
         if (attributes.getCode() != 0) {
             final String message = String.format("Keolis API error : code=%S, %s ",
                     attributes.getCode(), attributes.getMessage());
-            throw new JSONException(message);
+            throw new JsonParseException(message);
         }
     }
 

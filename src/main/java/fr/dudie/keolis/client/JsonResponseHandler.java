@@ -22,9 +22,10 @@ import java.io.InputStream;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
-import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.gson.JsonParseException;
 
 import fr.dudie.keolis.model.ApiResponse;
 
@@ -60,7 +61,7 @@ public abstract class JsonResponseHandler<V> implements ResponseHandler<ApiRespo
 
         try {
             KeoUtils.checkResponse(apiResponse);
-        } catch (final JSONException e) {
+        } catch (final JsonParseException e) {
             throw new IOException("Unable to parse the json response received from Keolis:\n" + e);
         }
 
