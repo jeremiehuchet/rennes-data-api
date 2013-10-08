@@ -173,8 +173,8 @@ public final class JsonKeolisClientTest extends AbstractJsonKeolisClientTest {
 
         assertNotNull("no line icons returned by the api", icons);
         assertTrue("at least one line icon should be returned by the api", icons.size() > 0);
-        assertEquals("on September, 6th 2011, the keolis API returns 128 line icons", 128,
-                icons.size());
+        // assertEquals("on September, 6th 2011, the keolis API returns 128 line icons", 128,
+        //        icons.size());
 
         for (final LineIcon icon : icons) {
             LOGGER.debug("checking {}", icon);
