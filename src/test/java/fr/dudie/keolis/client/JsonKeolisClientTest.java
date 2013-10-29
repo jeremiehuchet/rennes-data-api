@@ -15,6 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package fr.dudie.keolis.client;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.List;
@@ -44,14 +49,12 @@ public final class JsonKeolisClientTest extends AbstractJsonKeolisClientTest {
     /**
      * Constructor.
      * 
-     * @param name
-     *            the test name
      * @throws IOException
      *             an error occurred during initialization
      */
-    public JsonKeolisClientTest(final String name) throws IOException {
+    public JsonKeolisClientTest() throws IOException {
 
-        super(name);
+        super();
     }
 
     /**
@@ -143,8 +146,8 @@ public final class JsonKeolisClientTest extends AbstractJsonKeolisClientTest {
         assertNotNull("no subway station returned by the api", station);
         assertEquals("REPUBLIQUE", station.getName());
         assertEquals("PLACE DE LA RÉPUBLIQUE", station.getAddress());
-        assertEquals(48.10999, station.getLatitude());
-        assertEquals(-1.678027, station.getLongitude());
+        assertEquals(48.10999, station.getLatitude(),0);
+        assertEquals(-1.678027, station.getLongitude(),0);
         assertNotNull(String.format("station [%s] has no avalaible slots value", station),
                 station.getAvailableSlots());
         assertNotNull(String.format("station [%s] has no avalaible bikes value", station),
@@ -308,8 +311,8 @@ public final class JsonKeolisClientTest extends AbstractJsonKeolisClientTest {
 
         assertNotNull("no subway station returned by the api", station);
         assertEquals("Villejean-Université", station.getName());
-        assertEquals(48.12125, station.getLatitude());
-        assertEquals(-1.70395, station.getLongitude());
+        assertEquals(48.12125, station.getLatitude(), 0);
+        assertEquals(-1.70395, station.getLongitude(), 0);
         assertEquals(14, station.getRankingPlatformDirection1());
         assertEquals(16, station.getRankingPlatformDirection2());
         assertEquals(-1, station.getFloors());

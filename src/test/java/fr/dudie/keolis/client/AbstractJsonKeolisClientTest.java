@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Jérémie Huchet
  */
-public abstract class AbstractJsonKeolisClientTest extends TestCase {
+public abstract class AbstractJsonKeolisClientTest{
 
     /** The event logger. */
     private static final Logger LOGGER = LoggerFactory
@@ -55,14 +55,10 @@ public abstract class AbstractJsonKeolisClientTest extends TestCase {
     /**
      * Instantiates the test.
      * 
-     * @param name
-     *            the test name
      * @throws IOException
      *             an error occurred durign initialization
      */
-    public AbstractJsonKeolisClientTest(final String name) throws IOException {
-
-        super(name);
+    public AbstractJsonKeolisClientTest() throws IOException {
 
         LOGGER.info("Loading configuration file {}", PROPS_PATH);
         final InputStream in = AbstractJsonKeolisClientTest.class.getResourceAsStream(PROPS_PATH);
