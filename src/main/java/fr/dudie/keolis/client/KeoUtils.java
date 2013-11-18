@@ -29,11 +29,15 @@ import com.google.gson.reflect.TypeToken;
 
 import fr.dudie.keolis.gson.BikeStationDeserializer;
 import fr.dudie.keolis.gson.LineAlertDataDeserializer;
+import fr.dudie.keolis.gson.ListOfStopLineDepartureDeserializer;
+import fr.dudie.keolis.gson.ListOfStopLineDeserializer;
 import fr.dudie.keolis.gson.SubwayStationDeserializer;
 import fr.dudie.keolis.model.ApiResponse;
 import fr.dudie.keolis.model.BikeStation;
 import fr.dudie.keolis.model.LineAlertData;
 import fr.dudie.keolis.model.StatusAttributes;
+import fr.dudie.keolis.model.StopLine;
+import fr.dudie.keolis.model.StopLineDeparture;
 import fr.dudie.keolis.model.SubwayStation;
 
 /**
@@ -106,8 +110,15 @@ public final class KeoUtils {
 
             final Type listOfBikeStation = new TypeToken<List<BikeStation>>() {
             }.getType();
-
             gsonBuilder.registerTypeAdapter(listOfBikeStation, new BikeStationDeserializer());
+
+            final Type listOfStopLine = new TypeToken<List<StopLine>>() {
+            }.getType();
+            gsonBuilder.registerTypeAdapter(listOfStopLine, new ListOfStopLineDeserializer());
+
+            final Type listOfStopLineDeparture = new TypeToken<List<StopLineDeparture>>() {
+            }.getType();
+            gsonBuilder.registerTypeAdapter(listOfStopLineDeparture, new ListOfStopLineDepartureDeserializer());
 
             gsonInstance = gsonBuilder.create();
         }
