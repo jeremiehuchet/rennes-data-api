@@ -35,7 +35,9 @@ import fr.dudie.keolis.model.LineIcon;
 import fr.dudie.keolis.model.LineIconData;
 import fr.dudie.keolis.model.RelayPark;
 import fr.dudie.keolis.model.RelayParkData;
+import fr.dudie.keolis.model.StopLineData;
 import fr.dudie.keolis.model.SubwayData;
+import fr.dudie.keolis.model.StopLine;
 import fr.dudie.keolis.model.SubwayStation;
 
 /**
@@ -48,11 +50,17 @@ public class JsonKeolisClient implements KeolisClient {
     /** The event logger. */
     private static final Logger LOGGER = LoggerFactory.getLogger(JsonKeolisClient.class);
 
-    /** The Keolis API version this client use. */
-    private static final String API_VERSION = "2.0";
+    /** The Keolis API version 2.0. */
+    private static final String API_VERSION_2_0 = "2.0";
 
-    /** The keolis API base URL with key. */
-    private final String baseUrl;
+    /** The Keolis API version 2.1. */
+    private static final String API_VERSION_2_1 = "2.1";
+
+    /** The keolis API 2.0 base URL. */
+    private final String baseUrl20;
+
+    /** The keolis API 2.1 base URL. */
+    private final String baseUrl21;
 
     /** The HTTP client. */
     private final HttpClient httpClient;
@@ -82,6 +90,11 @@ public class JsonKeolisClient implements KeolisClient {
             new JsonResponseHandler<LineAlertData>(new TypeToken<ApiResponse<LineAlertData>>() {
     });
 
+    /** The handler to receive bus next departures. */
+    private final JsonResponseHandler<StopLineData> defaultBusNextDeparturesHandler = 
+            new JsonResponseHandler<StopLineData>(new TypeToken<ApiResponse<StopLineData>>() {
+    });
+
     /**
      * Creates a Keolis API client.
      * 
@@ -96,7 +109,9 @@ public class JsonKeolisClient implements KeolisClient {
 
         this.httpClient = httpClient;
         // http://api.keolis.net/api?version=2.0&key=AZERTY1234
-        this.baseUrl = String.format("%s?version=%s&key=%s", url, API_VERSION, key);
+        this.baseUrl20 = String.format("%s?version=%s&key=%s", url, API_VERSION_2_0, key);
+        // http://api.keolis.net/api?version=2.1&key=AZERTY1234
+        this.baseUrl21 = String.format("%s?version=%s&key=%s", url, API_VERSION_2_1, key);
     }
 
     /**
@@ -107,7 +122,7 @@ public class JsonKeolisClient implements KeolisClient {
     @Override
     public final List<BikeStation> getAllBikeStations() throws IOException {
 
-        final StringBuilder requestUrl = new StringBuilder(baseUrl);
+        final StringBuilder requestUrl = new StringBuilder(baseUrl20);
         requestUrl.append("&param[network]=levelostar");
         requestUrl.append("&cmd=getbikestations");
         requestUrl.append("&param[station]=all");
@@ -128,7 +143,7 @@ public class JsonKeolisClient implements KeolisClient {
     public final List<BikeStation> getBikeStationsNearFrom(final int latitude, final int longitude)
             throws IOException {
 
-        final StringBuilder requestUrl = new StringBuilder(baseUrl);
+        final StringBuilder requestUrl = new StringBuilder(baseUrl20);
         requestUrl.append("&param[network]=levelostar");
         requestUrl.append("&cmd=getbikestations");
         requestUrl.append("&param[station]=proximity");
@@ -151,7 +166,7 @@ public class JsonKeolisClient implements KeolisClient {
     @Override
     public final BikeStation getBikeStation(final String id) throws IOException {
 
-        final StringBuilder requestUrl = new StringBuilder(baseUrl);
+        final StringBuilder requestUrl = new StringBuilder(baseUrl20);
         requestUrl.append("&param[network]=levelostar");
         requestUrl.append("&cmd=getbikestations");
         requestUrl.append("&param[station]=number");
@@ -172,7 +187,7 @@ public class JsonKeolisClient implements KeolisClient {
     @Override
     public final List<SubwayStation> getAllSubwayStations() throws IOException {
 
-        final StringBuilder requestUrl = new StringBuilder(baseUrl);
+        final StringBuilder requestUrl = new StringBuilder(baseUrl20);
         requestUrl.append("&param[network]=star");
         requestUrl.append("&cmd=getmetrostations");
         requestUrl.append("&param[mode]=all");
@@ -193,7 +208,7 @@ public class JsonKeolisClient implements KeolisClient {
     public final List<SubwayStation> getSubwayStationsNearFrom(final int latitude,
             final int longitude) throws IOException {
 
-        final StringBuilder requestUrl = new StringBuilder(baseUrl);
+        final StringBuilder requestUrl = new StringBuilder(baseUrl20);
         requestUrl.append("&param[network]=star");
         requestUrl.append("&cmd=getmetrostations");
         requestUrl.append("&param[mode]=proximity");
@@ -216,7 +231,7 @@ public class JsonKeolisClient implements KeolisClient {
     @Override
     public final SubwayStation getSubwayStation(final String id) throws IOException {
 
-        final StringBuilder requestUrl = new StringBuilder(baseUrl);
+        final StringBuilder requestUrl = new StringBuilder(baseUrl20);
         requestUrl.append("&param[network]=star");
         requestUrl.append("&cmd=getmetrostations");
         requestUrl.append("&param[mode]=station");
@@ -237,7 +252,7 @@ public class JsonKeolisClient implements KeolisClient {
     @Override
     public final List<LineIcon> getAllLineIcons() throws IOException {
 
-        final StringBuilder requestUrl = new StringBuilder(baseUrl);
+        final StringBuilder requestUrl = new StringBuilder(baseUrl20);
         requestUrl.append("&param[network]=star");
         requestUrl.append("&cmd=getlines");
         requestUrl.append("&param[mode]=all");
@@ -257,7 +272,7 @@ public class JsonKeolisClient implements KeolisClient {
     @Override
     public final List<RelayPark> getAllRelayParks() throws IOException {
 
-        final StringBuilder requestUrl = new StringBuilder(baseUrl);
+        final StringBuilder requestUrl = new StringBuilder(baseUrl20);
         requestUrl.append("&param[network]=star");
         requestUrl.append("&cmd=getrelayparks");
 
@@ -277,7 +292,7 @@ public class JsonKeolisClient implements KeolisClient {
     public final List<RelayPark> getRelayParksNearFrom(final int latitude, final int longitude)
             throws IOException {
 
-        final StringBuilder requestUrl = new StringBuilder(baseUrl);
+        final StringBuilder requestUrl = new StringBuilder(baseUrl20);
         requestUrl.append("&param[network]=star");
         requestUrl.append("&cmd=getrelayparks");
         requestUrl.append("&param[latitude]=").append(latitude);
@@ -298,7 +313,7 @@ public class JsonKeolisClient implements KeolisClient {
     @Override
     public final List<LineAlert> getAllLinesAlerts() throws IOException {
 
-        final StringBuilder requestUrl = new StringBuilder(baseUrl);
+        final StringBuilder requestUrl = new StringBuilder(baseUrl20);
         requestUrl.append("&param[network]=star");
         requestUrl.append("&cmd=getlinesalerts");
         requestUrl.append("&param[mode]=all");
@@ -318,7 +333,7 @@ public class JsonKeolisClient implements KeolisClient {
     @Override
     public final List<LineAlert> getLinesAlertsForLine(final String line) throws IOException {
 
-        final StringBuilder requestUrl = new StringBuilder(baseUrl);
+        final StringBuilder requestUrl = new StringBuilder(baseUrl20);
         requestUrl.append("&param[network]=star");
         requestUrl.append("&cmd=getlinesalerts");
         requestUrl.append("&param[mode]=line");
@@ -329,5 +344,46 @@ public class JsonKeolisClient implements KeolisClient {
         return httpClient.execute(new HttpGet(requestUrl.toString()), defaultLineAlertHandler)
                 .getOpendata().getAnswer().getData().getAlerts();
 
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see fr.dudie.keolis.client.KeolisClient#getBusNextDeparturesForStop(java.lang.String[])
+     */
+    @Override
+    public List<StopLine> getBusNextDeparturesForStop(String... stops) throws IOException {
+
+        final StringBuilder requestUrl = new StringBuilder(baseUrl21);
+        requestUrl.append("&cmd=getbusnextdepartures");
+        requestUrl.append("&param[mode]=stop");
+        for (final String stopId : stops) {
+            requestUrl.append("&param[stop][]=").append(stopId);
+        }
+        
+        LOGGER.debug("request url: {}", requestUrl);
+
+        return httpClient.execute(new HttpGet(requestUrl.toString()), defaultBusNextDeparturesHandler)
+                .getOpendata().getAnswer().getData().getStopLines();
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see fr.dudie.keolis.client.KeolisClient#getBusNextDeparturesForLine(java.lang.String, int)
+     */
+    @Override
+    public List<StopLine> getBusNextDeparturesForLine(String route, int direction) throws IOException {
+
+        final StringBuilder requestUrl = new StringBuilder(baseUrl21);
+        requestUrl.append("&cmd=getbusnextdepartures");
+        requestUrl.append("&param[mode]=line");
+        requestUrl.append("&param[route]=").append(route);
+        requestUrl.append("&param[direction]=").append(direction);
+        
+        LOGGER.debug("request url: {}", requestUrl);
+
+        return httpClient.execute(new HttpGet(requestUrl.toString()), defaultBusNextDeparturesHandler)
+                .getOpendata().getAnswer().getData().getStopLines();
     }
 }

@@ -23,6 +23,7 @@ import fr.dudie.keolis.model.BikeStation;
 import fr.dudie.keolis.model.LineAlert;
 import fr.dudie.keolis.model.LineIcon;
 import fr.dudie.keolis.model.RelayPark;
+import fr.dudie.keolis.model.StopLine;
 import fr.dudie.keolis.model.SubwayStation;
 
 /**
@@ -149,4 +150,28 @@ public interface KeolisClient {
      *             unable to get a result from the server
      */
     List<LineAlert> getLinesAlertsForLine(String line) throws IOException;
+
+    /**
+     * Makes a call to get the bus next departures for the given stops.
+     * 
+     * @param stops
+     *            the stop ids (max 5)
+     * @return the bus next departures for the given stops
+     * @throws IOException
+     *             unable to get a result from the server
+     */
+    List<StopLine> getBusNextDeparturesForStop(String... stops) throws IOException;
+
+    /**
+     * Makes a call to get the bus next departures for the given route.
+     * 
+     * @param route
+     *            the route id
+     * @param direction
+     *            the route direction
+     * @return the bus next departures for the given line
+     * @throws IOException
+     *             unable to get a result from the server
+     */
+    List<StopLine> getBusNextDeparturesForLine(String route, int direction) throws IOException;
 }

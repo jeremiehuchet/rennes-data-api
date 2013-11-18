@@ -34,6 +34,7 @@ import fr.dudie.keolis.model.BikeStation;
 import fr.dudie.keolis.model.LineAlert;
 import fr.dudie.keolis.model.LineIcon;
 import fr.dudie.keolis.model.RelayPark;
+import fr.dudie.keolis.model.StopLine;
 import fr.dudie.keolis.model.SubwayStation;
 
 /**
@@ -394,4 +395,67 @@ public final class JsonKeolisClientTest extends AbstractJsonKeolisClientTest {
         LOGGER.info("testGetLinesAlertsForUnexistingLine.start");
     }
 
+    /**
+     * Test method for {@link JsonKeolisClient#getBusNextDeparturesForStop(String...)} with an empty stop list.
+     */
+    @Test(expected = IOException.class)
+    public void testGetBusNextDeparturesForEmptyStopList() throws IOException {
+        // throws IOException with message 103 "No stop value has been passed to the command"
+        getKeolisClient().getBusNextDeparturesForStop();
+    }
+
+    /**
+     * Test method for {@link JsonKeolisClient#getBusNextDeparturesForStop(String...)} with one stop id.
+     */
+    @Test
+    public void testGetBusNextDeparturesForOneStop() throws IOException {
+        final List<StopLine> stopLines = getKeolisClient().getBusNextDeparturesForStop("1001");
+        assertEquals(1, stopLines.size());
+    }
+
+    /**
+     * Test method for {@link JsonKeolisClient#getBusNextDeparturesForStop(String...)} with 3 stop ids.
+     */
+    @Test
+    public void testGetBusNextDeparturesForThreeStops() throws IOException {
+        final List<StopLine> stopLines = getKeolisClient().getBusNextDeparturesForStop("1001", "1002", "1003");
+        assertEquals(3, stopLines.size());
+    }
+
+    /**
+     * Test method for {@link JsonKeolisClient#getBusNextDeparturesForStop(String...)} with 6 stop ids.
+     */
+    @Test(expected = IOException.class)
+    public void testGetBusNextDeparturesForSixStops() throws IOException {
+        // throws IOException with message 107 "The stop parameter must not occur more than 5 times."
+        // WTF? we must pass 11 stop ids to  get the error " you can't set param 'stop' more than 5 times"
+        getKeolisClient().getBusNextDeparturesForStop("1001", "1002", "1003", "1004", "1005", "1006", "1007", "1008", "1009", "1010", "1011");
+    }
+
+    /**
+     * Test method for {@link JsonKeolisClient#getBusNextDeparturesForLine(String, int)}.
+     */
+    @Test
+    public void testGetBusNextDeparturesForLine() throws IOException {
+        final List<StopLine> stopLines = getKeolisClient().getBusNextDeparturesForLine("0001", 1);
+        assertTrue(stopLines.size() > 1);
+    }
+
+    /**
+     * Test method for {@link JsonKeolisClient#getBusNextDeparturesForLine(String, int)} for invalid route id.
+     */
+    @Test
+    public void testGetBusNextDeparturesForLineForUnexistingRoute() throws IOException {
+        final List<StopLine> stopLines = getKeolisClient().getBusNextDeparturesForLine("unexisting", 1);
+        assertEquals(0, stopLines.size() );
+    }
+
+    /**
+     * Test method for {@link JsonKeolisClient#getBusNextDeparturesForLine(String, int)} for invalid direction.
+     */
+    @Test
+    public void testGetBusNextDeparturesForLineForinvalidDirection() throws IOException {
+        final List<StopLine> stopLines = getKeolisClient().getBusNextDeparturesForLine("0001", 3);
+        assertEquals(0, stopLines.size() );
+    }
 }
