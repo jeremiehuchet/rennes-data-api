@@ -18,6 +18,8 @@ package fr.dudie.keolis.client;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -26,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gson.JsonParseException;
+import com.google.gson.reflect.TypeToken;
 
 import fr.dudie.keolis.model.ApiResponse;
 
@@ -34,10 +37,17 @@ import fr.dudie.keolis.model.ApiResponse;
  * 
  * @param <V>
  */
-public abstract class JsonResponseHandler<V> implements ResponseHandler<ApiResponse<V>> {
+public class JsonResponseHandler<V> implements ResponseHandler<ApiResponse<V>> {
 
     /** The event logger. */
     private static final Logger LOGGER = LoggerFactory.getLogger(JsonResponseHandler.class);
+
+    /** The response type (gson requirement). */
+    private final Type type;
+
+    public JsonResponseHandler(final TypeToken<ApiResponse<V>> responseType) {
+        this.type = responseType.getType();
+    }
 
     /**
      * {@inheritDoc}
@@ -53,7 +63,7 @@ public abstract class JsonResponseHandler<V> implements ResponseHandler<ApiRespo
 
         }
 
-        final InputStream inputStream = response.getEntity().getContent();
+        InputStream inputStream = response.getEntity().getContent();
 
         final ApiResponse<V> apiResponse = handleJsonResponse(inputStream);
 
@@ -78,5 +88,10 @@ public abstract class JsonResponseHandler<V> implements ResponseHandler<ApiRespo
      *            http response input stream
      * @return the api response
      */
-    abstract ApiResponse<V> handleJsonResponse(final InputStream responseStream);
+    private ApiResponse<V> handleJsonResponse(final InputStream inputStream) {
+
+        return KeoUtils.getGsonInstance().fromJson(new InputStreamReader(inputStream),
+                type);
+
+    }
 }

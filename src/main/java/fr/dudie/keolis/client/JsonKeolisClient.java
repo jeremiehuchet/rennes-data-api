@@ -24,10 +24,18 @@ import org.apache.http.client.methods.HttpGet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gson.reflect.TypeToken;
+
+import fr.dudie.keolis.model.ApiResponse;
+import fr.dudie.keolis.model.BikeData;
 import fr.dudie.keolis.model.BikeStation;
 import fr.dudie.keolis.model.LineAlert;
+import fr.dudie.keolis.model.LineAlertData;
 import fr.dudie.keolis.model.LineIcon;
+import fr.dudie.keolis.model.LineIconData;
 import fr.dudie.keolis.model.RelayPark;
+import fr.dudie.keolis.model.RelayParkData;
+import fr.dudie.keolis.model.SubwayData;
 import fr.dudie.keolis.model.SubwayStation;
 
 /**
@@ -50,19 +58,29 @@ public class JsonKeolisClient implements KeolisClient {
     private final HttpClient httpClient;
 
     /** The handler to receive bike stations. */
-    private final BikeStationHttpResponseHandler defaultBikeStationHandler = new BikeStationHttpResponseHandler();
+    private final JsonResponseHandler<BikeData> defaultBikeStationHandler =
+            new JsonResponseHandler<BikeData>(new TypeToken<ApiResponse<BikeData>>() {
+    });
 
     /** The handler to receive subway stations. */
-    private final SubwayStationHttpResponseHandler defaultSubwayStationHandler = new SubwayStationHttpResponseHandler();
+    private final JsonResponseHandler<SubwayData> defaultSubwayStationHandler =
+            new JsonResponseHandler<SubwayData>(new TypeToken<ApiResponse<SubwayData>>() {
+    });
 
     /** The handler to receive line icons. */
-    private final LineIconsHttpResponseHandler defaultLineIconHandler = new LineIconsHttpResponseHandler();
+    private final JsonResponseHandler<LineIconData> defaultLineIconHandler =
+            new JsonResponseHandler<LineIconData>(new TypeToken<ApiResponse<LineIconData>>() {
+    });
 
     /** The handler to receive relay parks. */
-    private final RelayParkHttpResponseHandler defaultRelayParkHandler = new RelayParkHttpResponseHandler();
+    private final JsonResponseHandler<RelayParkData> defaultRelayParkHandler =
+            new JsonResponseHandler<RelayParkData>(new TypeToken<ApiResponse<RelayParkData>>() {
+    });
 
     /** The handler to receive lines alerts. */
-    private final LineAlertHttpResponseHandler defaultLineAlertHandler = new LineAlertHttpResponseHandler();
+    private final JsonResponseHandler<LineAlertData> defaultLineAlertHandler =
+            new JsonResponseHandler<LineAlertData>(new TypeToken<ApiResponse<LineAlertData>>() {
+    });
 
     /**
      * Creates a Keolis API client.
