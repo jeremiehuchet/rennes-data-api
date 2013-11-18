@@ -2,7 +2,7 @@ h1. Rennes data API
 
 This library provides a client to access Rennes Métropole "transportation data API (v2)":http://data.keolis-rennes.com/fr/les-donnees/donnees-et-api.html provided by Keolis.
 
-[![Build Status](https://travis-ci.org/kops/rennes-data-api.png?branch=master)](https://travis-ci.org/kops/rennes-data-api)
+!https://travis-ci.org/kops/rennes-data-api.png?branch=realtime!:https://travis-ci.org/kops/rennes-data-api
 
 h2. Java & Android
 
