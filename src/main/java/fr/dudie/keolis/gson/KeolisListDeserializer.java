@@ -26,28 +26,33 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 
 import fr.dudie.keolis.client.KeoUtils;
-import fr.dudie.keolis.model.StopLine;
 
 /**
  * Deserializer for "stopline.departure" element returned by getbusnextdepartures command of keolis api.
  * 
  * @author Jeremie Huchet
  */
-public final class ListOfStopLineDeserializer implements JsonDeserializer<List<StopLine>> {
+public final class KeolisListDeserializer<T> implements JsonDeserializer<List<T>> {
+
+    private final Class<T> clazz;
+
+    public KeolisListDeserializer(final Class<T> clazz) {
+        this.clazz = clazz;
+    }
 
     @Override
-    public List<StopLine> deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) {
+    public List<T> deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) {
 
-        final ArrayList<StopLine> stopLines = new ArrayList<StopLine>();
+        final ArrayList<T> stopLines = new ArrayList<T>();
 
         if (json instanceof JsonArray) {
             final JsonArray jsonArray = (JsonArray) json;
 
             for (int i = 0; i < jsonArray.size(); i++) {
-                stopLines.add(KeoUtils.getGsonInstance().fromJson(jsonArray.get(i), StopLine.class));
+                stopLines.add(KeoUtils.getGsonInstance().fromJson(jsonArray.get(i), clazz));
             }
         } else {
-            stopLines.add(KeoUtils.getGsonInstance().fromJson(json, StopLine.class));
+            stopLines.add(KeoUtils.getGsonInstance().fromJson(json, clazz));
         }
 
         return stopLines;

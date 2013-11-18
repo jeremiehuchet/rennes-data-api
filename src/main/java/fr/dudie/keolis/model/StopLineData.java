@@ -1,5 +1,6 @@
 package fr.dudie.keolis.model;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class StopLineData {
      * @return the stop lines informations
      */
     public List<StopLine> getStopLines() {
-        return normalize(stopLines);
+        return normalize(getRawStopLines());
     }
 
     private List<StopLine> normalize(final List<StopLine> stopLines) {
@@ -58,7 +59,12 @@ public class StopLineData {
      * 
      * @return the raw stop lines informations
      */
+    @SuppressWarnings("unchecked")
     public List<StopLine> getRawStopLines() {
-        return stopLines;
+        if (null == stopLines) {
+            return Collections.EMPTY_LIST;
+        } else {
+            return stopLines;
+        }
     }
 }

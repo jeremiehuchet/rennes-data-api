@@ -28,9 +28,8 @@ import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 
 import fr.dudie.keolis.gson.BikeStationDeserializer;
+import fr.dudie.keolis.gson.KeolisListDeserializer;
 import fr.dudie.keolis.gson.LineAlertDataDeserializer;
-import fr.dudie.keolis.gson.ListOfStopLineDepartureDeserializer;
-import fr.dudie.keolis.gson.ListOfStopLineDeserializer;
 import fr.dudie.keolis.gson.SubwayStationDeserializer;
 import fr.dudie.keolis.model.ApiResponse;
 import fr.dudie.keolis.model.BikeStation;
@@ -114,11 +113,11 @@ public final class KeoUtils {
 
             final Type listOfStopLine = new TypeToken<List<StopLine>>() {
             }.getType();
-            gsonBuilder.registerTypeAdapter(listOfStopLine, new ListOfStopLineDeserializer());
+            gsonBuilder.registerTypeAdapter(listOfStopLine, new KeolisListDeserializer<StopLine>(StopLine.class));
 
             final Type listOfStopLineDeparture = new TypeToken<List<StopLineDeparture>>() {
             }.getType();
-            gsonBuilder.registerTypeAdapter(listOfStopLineDeparture, new ListOfStopLineDepartureDeserializer());
+            gsonBuilder.registerTypeAdapter(listOfStopLineDeparture, new KeolisListDeserializer<StopLineDeparture>(StopLineDeparture.class));
 
             gsonInstance = gsonBuilder.create();
         }

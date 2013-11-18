@@ -6,6 +6,16 @@ import java.util.List;
  * @author Jeremie Huchet
  */
 public class StopLine {
+    
+
+    /**
+     * Helper class for Gson deserialization. The date and attributes properties values are held into a json object.
+     */
+    private static class Departures {
+
+        /** The departure date. */
+        private List<StopLineDeparture> departure;
+    }
 
     /** The stop id. */
     private String stop;
@@ -17,7 +27,7 @@ public class StopLine {
     private Integer direction;
 
     /** The bus next departures. */
-    private List<StopLineDeparture> departures;
+    private Departures departures;
 
     /**
      * Gets the stop id.
@@ -52,7 +62,7 @@ public class StopLine {
      * @return the bus next departures
      */
     public List<StopLineDeparture> getDepartures() {
-        return departures;
+        return departures.departure;
     }
 
 }

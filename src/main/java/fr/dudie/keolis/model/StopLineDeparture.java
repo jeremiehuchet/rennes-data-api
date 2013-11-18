@@ -21,22 +21,13 @@ public class StopLineDeparture {
         private String headsign;
     }
 
-    /**
-     * Helper class for Gson deserialization. The date and attributes properties values are held into a json object.
-     */
-    private static class Departure {
+    /** The departure date. */
+    @SerializedName("content")
+    private Date date;
 
-        /** The departure date. */
-        @SerializedName("content")
-        private Date date;
-
-        /** See {@link Attributes} */
-        @SerializedName("@attributes")
-        private Attributes attributes;
-    }
-
-    /** See {@link Departure}. */
-    private Departure departure;
+    /** See {@link Attributes} */
+    @SerializedName("@attributes")
+    private Attributes attributes;
 
     /**
      * Gets the departure date.
@@ -44,7 +35,7 @@ public class StopLineDeparture {
      * @return the departure date
      */
     public Date getDate() {
-        return departure.date;
+        return date;
     }
 
     /**
@@ -53,7 +44,7 @@ public class StopLineDeparture {
      * @return true if the departure date is accurate
      */
     public boolean isAccurate() {
-        return departure.attributes.accurate;
+        return attributes.accurate;
     }
 
     /**
@@ -62,6 +53,6 @@ public class StopLineDeparture {
      * @return the trip headsign
      */
     public String getHeadsign() {
-        return departure.attributes.headsign;
+        return attributes.headsign;
     }
 }
