@@ -76,7 +76,7 @@ public final class JsonKeolisClientTest extends AbstractJsonKeolisClientTest {
 
         assertNotNull("no bike stations returned by the api", stations);
         assertTrue("at least one bike station should be returned by the api", stations.size() > 0);
-        assertEquals("on April, 13th 2014, the keolis API returns 82 bike stations", 82,
+        assertEquals("on June, 2nd 2014, the keolis API returns 83 bike stations", 83,
                 stations.size());
 
         for (final BikeStation station : stations) {
@@ -176,7 +176,7 @@ public final class JsonKeolisClientTest extends AbstractJsonKeolisClientTest {
 
         assertNotNull("no line icons returned by the api", icons);
         assertTrue("at least one line icon should be returned by the api", icons.size() > 0);
-        assertEquals("on April, 13th 2014, the keolis API returns 159 line icons", 159,
+        assertEquals("on June, 2nd 2014, the keolis API returns 160 line icons", 160,
                 icons.size());
 
         for (final LineIcon icon : icons) {
