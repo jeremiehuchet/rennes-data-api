@@ -63,11 +63,11 @@ public class BikeStation {
 
     /** The latitude of the station. */
     @SerializedName("latitude")
-    private double latitude;
+    private String latitude;
 
     /** The longitude of the station. */
     @SerializedName("longitude")
-    private double longitude;
+    private String longitude;
 
     /** The amount of available slots in the station. */
     @SerializedName("slotsavailable")
@@ -136,7 +136,7 @@ public class BikeStation {
      */
     public final double getLatitude() {
 
-        return latitude;
+        return safeParseDouble(latitude);
     }
 
     /**
@@ -146,7 +146,20 @@ public class BikeStation {
      */
     public final double getLongitude() {
 
-        return longitude;
+        return safeParseDouble(longitude);
+    }
+
+    /**
+     * Parse a double no matter decimal part is separated by a dot or a comma.
+     * 
+     * <strong>This a fix for Issue #6 : https://github.com/kops/rennes-data-api/issues/6</strong>
+     * 
+     * @param value
+     *            a double value as a string
+     * @return the parsed double value
+     */
+    private double safeParseDouble(final String value) {
+        return Double.valueOf(null == value ? null : value.replace(',', '.'));
     }
 
     /**
@@ -251,7 +264,7 @@ public class BikeStation {
      */
     public final void setLatitude(final double latitude) {
 
-        this.latitude = latitude;
+        this.latitude = String.valueOf(latitude);
     }
 
     /**
@@ -262,7 +275,7 @@ public class BikeStation {
      */
     public final void setLongitude(final double longitude) {
 
-        this.longitude = longitude;
+        this.longitude = String.valueOf(longitude);
     }
 
     /**
